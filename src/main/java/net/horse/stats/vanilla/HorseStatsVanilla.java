@@ -7,5 +7,4 @@ public class HorseStatsVanilla implements ModInitializer {
     public void onInitialize() {
 
     }
-    
 }
