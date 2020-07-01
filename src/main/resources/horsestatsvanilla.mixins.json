@@ -2,12 +2,11 @@
   "required": true,
   "package": "net.horse.stats.vanilla.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [
-      "HorseScreenMixin"
+    "HorseScreenMixin"
   ],
   "injectors": {
-      "defaultRequire": 1
+    "defaultRequire": 1
   }
 }
