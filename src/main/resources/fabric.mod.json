@@ -25,5 +25,8 @@
   },
   "suggests": {
     "flamingo": "*"
-  }
+  },
+   "custom": {
+   "modmenu:clientsideOnly": true
+   }
 }
