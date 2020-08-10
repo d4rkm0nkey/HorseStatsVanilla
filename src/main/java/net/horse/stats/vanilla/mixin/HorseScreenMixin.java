@@ -35,9 +35,9 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         }
 
         DecimalFormat df = new DecimalFormat("#.#");
-        String jumpstrength = df.format(this.entity.getJumpStrength() * 10);
+        String jumpstrength = df.format( 0.695 * (this.entity.getJumpStrength() * 10) - 1.736);
         String maxHealth = df.format(this.entity.getMaxHealth());
-        String speed = df.format(this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 100);
+        String speed = df.format( 0.42466 * (this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 100) + 0.112665);
 
         if (!hasChest) {
             this.textRenderer.draw(matrices, "➟ ", 89.0F, 26.0F, 4210752);
