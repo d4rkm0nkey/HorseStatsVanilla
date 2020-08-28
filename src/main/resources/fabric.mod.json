@@ -3,17 +3,22 @@
   "id": "horsestatsvanilla",
   "version": "${version}",
   "name": "Horse Stats Vanilla",
-  "description": "Shows horse stats in the horse inventory. The style is fiting the vanilla game.",
+  "description": "Shows horse stats in the horse inventory.",
   "authors": [
     "lumpyMonkey"
   ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/horsestatsvanilla",
+    "sources": "https://github.com/d4rkm0nkey/HorseStatsVanilla"
+  },
   "license": "CC0-1.0",
   "icon": "assets/horsestatsvanilla/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.horse.stats.vanilla.HorseStatsVanilla"
-    ]
+      "monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla"
+    ],
+    "modmenu": [ "monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl" ] 
   },
   "mixins": [
     "horsestatsvanilla.mixins.json"

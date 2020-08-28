@@ -18,6 +18,15 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "io.github.prospector:modmenu:1.14.6+build.31"
+	modApi("me.shedaniel.cloth:config-2:4.8.1") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+	modApi("me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+	include "me.shedaniel.cloth:config-2:4.8.1"
+	include "me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
@@ -73,5 +82,6 @@ publishing {
 	repositories {
 		// uncomment to publish to the local maven
 		// mavenLocal()
+		jcenter()
 	}
 }
