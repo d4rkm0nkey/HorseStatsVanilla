@@ -7,9 +7,11 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 @Config(name = "horsestatsvanilla")
 public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
-    boolean useColors = true;
+    private boolean useColors = true;
     @ConfigEntry.Gui.Tooltip
-    boolean showMaxMin = true;
+    private boolean showMaxMin = true;
+    @ConfigEntry.Gui.Tooltip
+    private boolean enableTooltip = true;
 
     public boolean useColors() {
         return useColors;
@@ -17,6 +19,10 @@ public class ModConfig implements ConfigData {
 
     public boolean showMaxMin() {
         return showMaxMin;
+    }
+
+    public boolean isTooltipEnabled() {
+        return enableTooltip;
     }
     
 }

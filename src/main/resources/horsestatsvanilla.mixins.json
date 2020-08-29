@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "HorseScreenMixin"
+    "HorseScreenMixin",
+    "HorseEntityMixin",
+    "AbstractDonkeyEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

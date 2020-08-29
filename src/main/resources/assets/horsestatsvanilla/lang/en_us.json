@@ -2,6 +2,8 @@
     "text.autoconfig.horsestatsvanilla.title": "HorseStatsVanilla Config", 
     "text.autoconfig.horsestatsvanilla.option.useColors": "Use colors",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "Show max and min",
+    "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Enable Tooltip",
     "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Highlight weak values red and good values green.",
-    "text.autoconfig.horsestatsvanilla.option.showMaxMin.@Tooltip": "Display max and min values."
+    "text.autoconfig.horsestatsvanilla.option.showMaxMin.@Tooltip": "Display max and min values.",
+    "text.autoconfig.horsestatsvanilla.option.enableTooltip.@Tooltip": "Show a tooltip when right-clicking on a horse while sneaking"
 }

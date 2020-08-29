@@ -25,6 +25,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
     @Shadow
     @Final
     private HorseBaseEntity entity;
+
     private final int normalColor = 4210752;
     private final int badColor = 16733525;
     private final int goodColor = 43520;
@@ -38,7 +39,6 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         super.drawForeground(matrices, mouseX, mouseY);
         if(config == null) {
             config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-            System.out.println(config == null);
         }
         boolean hasChest = false;
         if (AbstractDonkeyEntity.class.isAssignableFrom(this.entity.getClass()) && ((AbstractDonkeyEntity) this.entity).hasChest()) {
@@ -56,7 +56,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         if(config.useColors()) {
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-            int healthValue = new BigDecimal(maxHealth).intValue();
+            int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
     
             if(jumpValue > 4) {jumpColor = goodColor;}
             else if (jumpValue < 2.5) {jumpColor = badColor;};
@@ -98,8 +98,8 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
             int strength = 3 * ((LlamaEntity) this.entity).getStrength();
 
             if(config.useColors()) {
-                if(new BigDecimal(strength).doubleValue() > 9) {strengthColor = goodColor;} 
-                else if (new BigDecimal(strength).doubleValue() < 6) {strengthColor = badColor;};
+                if(strength > 9) {strengthColor = goodColor;} 
+                else if (strength < 6) {strengthColor = badColor;};
             }
             if (!hasChest) {
                 this.textRenderer.draw(matrices, "▦", 91.0F, 56.0F, strengthColor);
