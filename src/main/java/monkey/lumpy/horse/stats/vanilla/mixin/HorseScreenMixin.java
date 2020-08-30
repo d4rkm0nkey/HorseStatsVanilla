@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
+import monkey.lumpy.horse.stats.vanilla.util.Converter;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -45,9 +46,9 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
             hasChest = true;
         }
         DecimalFormat df = new DecimalFormat("#.#");
-        String jumpstrength = df.format( 0.695 * (this.entity.getJumpStrength() * 10) - 1.736);
+        String jumpstrength = df.format(Converter.jumpStrengthToJumpHeight(this.entity.getJumpStrength()));
         String maxHealth = df.format(this.entity.getMaxHealth());
-        String speed = df.format( 0.42466 * (this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 100) + 0.112665);
+        String speed = df.format(Converter.genericSpeedToBlocPerSec(this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
 
         // Coloring
         int jumpColor = normalColor;

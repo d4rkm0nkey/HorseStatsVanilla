@@ -11,6 +11,7 @@ import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import monkey.lumpy.horse.stats.vanilla.gui.Tooltip;
+import monkey.lumpy.horse.stats.vanilla.util.Converter;
 
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -43,7 +44,7 @@ public class AbstractDonkeyEntityMixin extends HorseBaseEntity {
         if (this.world.isClient && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
             // Show tooltip
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpstrength = df.format( 0.695 * (this.getJumpStrength() * 10) - 1.736);
+            String jumpstrength = df.format( Converter.jumpStrengthToJumpHeight(this.getJumpStrength()) );
             String maxHealth = df.format(this.getMaxHealth());
             String speed = df.format( 0.42466 * (this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 100) + 0.112665);            
             
