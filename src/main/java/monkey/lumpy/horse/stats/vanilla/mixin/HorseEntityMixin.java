@@ -42,15 +42,13 @@ public abstract class HorseEntityMixin extends HorseBaseEntity {
         if (this.world.isClient && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
             // Show tooltip
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpstrength = df.format( 0.695 * (this.getJumpStrength() * 10) - 1.736);
+            String jumpstrength = df.format( Converter.jumpStrengthToJumpHeight(this.getJumpStrength()) );
             String maxHealth = df.format(this.getMaxHealth());
             String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));         
             
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
             int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
-            // while (player.isSneaking()) showTooltip
-
 
             MinecraftClient.getInstance().openScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue, null))

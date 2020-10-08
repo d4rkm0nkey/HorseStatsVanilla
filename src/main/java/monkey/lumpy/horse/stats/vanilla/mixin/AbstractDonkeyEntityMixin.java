@@ -46,7 +46,7 @@ public class AbstractDonkeyEntityMixin extends HorseBaseEntity {
             DecimalFormat df = new DecimalFormat("#.#");
             String jumpstrength = df.format( Converter.jumpStrengthToJumpHeight(this.getJumpStrength()) );
             String maxHealth = df.format(this.getMaxHealth());
-            String speed = df.format( 0.42466 * (this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 100) + 0.112665);            
+            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));            
             
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.4-SNAPSHOT'
+	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -26,16 +26,16 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "io.github.prospector:modmenu:1.14.6+build.31"
-	modImplementation "io.github.cottonmc:LibGui:3.0.0-beta.1+1.16.2-rc2"
-	modApi("me.shedaniel.cloth:config-2:4.8.1") {
+	modImplementation "io.github.cottonmc:LibGui:3.0.0+1.16.3"
+	modApi("me.shedaniel.cloth:config-2:4.8.2") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-	modApi("me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable") {
+	modApi("me.sargunvohra.mcmods:autoconfig1u:3.2.2") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-	include "me.shedaniel.cloth:config-2:4.8.1"
-	include "me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable"
-	include "io.github.cottonmc:LibGui:3.0.0-beta.1+1.16.2-rc2"
+	include "me.shedaniel.cloth:config-2:4.8.2"
+	include "me.sargunvohra.mcmods:autoconfig1u:3.2.2"
+	include "io.github.cottonmc:LibGui:3.0.0+1.16.3"
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }

@@ -90,7 +90,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         } else {
             this.textRenderer.draw(matrices, "➟ " + speed, 80.0F, 6.0F, speedColor);
             this.textRenderer.draw(matrices, "⇮ " + jumpstrength, 115.0F, 6.0F, jumpColor);
-            this.textRenderer.draw(matrices, "♥️ " + maxHealth, 140.0F, 6.0F, hearthColor);
+            this.textRenderer.draw(matrices, "♥ " + maxHealth, 140.0F, 6.0F, hearthColor);
         }
 
         int strengthColor = normalColor;
