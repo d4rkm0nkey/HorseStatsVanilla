@@ -1,0 +1,9 @@
+{
+    "text.autoconfig.horsestatsvanilla.title": "HorseStatsVanilla (Vanilla At Bilgileri) Ayarları", 
+    "text.autoconfig.horsestatsvanilla.option.useColors": "Renkleri kullan",
+    "text.autoconfig.horsestatsvanilla.option.showMaxMin": "En çok ve en azı göster",
+    "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Açıklamayı etkinleştir",
+    "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Zayıf değerleri kırmızı, güçlü değerleri yeşille göster.",
+    "text.autoconfig.horsestatsvanilla.option.showMaxMin.@Tooltip": "En çok ve en az değerleri göster.",
+    "text.autoconfig.horsestatsvanilla.option.enableTooltip.@Tooltip": "Eğilirken bir ata sağ tıklayıp bir açıklama penceresi açın."
+}
