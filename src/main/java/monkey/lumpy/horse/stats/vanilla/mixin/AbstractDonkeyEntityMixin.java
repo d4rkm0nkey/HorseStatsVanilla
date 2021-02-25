@@ -50,7 +50,7 @@ public class AbstractDonkeyEntityMixin extends HorseBaseEntity {
             
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-            int healthValue = new BigDecimal(maxHealth).intValue();
+            double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
             
             Integer strength = null;
             if (LlamaEntity.class.isAssignableFrom(this.getClass())) {

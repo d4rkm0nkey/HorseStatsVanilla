@@ -54,7 +54,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         if(config.useColors()) {
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-            int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
+            double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
     
             if(jumpValue > config.getGoodHorseJumpValue()) {jumpColor = config.getGoodColor();}
             else if (jumpValue < config.getBadHorseJumpValue()) {jumpColor = config.getBadColor();};

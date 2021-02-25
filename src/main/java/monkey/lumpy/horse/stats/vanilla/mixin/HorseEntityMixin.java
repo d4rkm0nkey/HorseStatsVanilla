@@ -48,7 +48,7 @@ public abstract class HorseEntityMixin extends HorseBaseEntity {
             
             double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-            int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
+            double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
 
             MinecraftClient.getInstance().openScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue, null))
