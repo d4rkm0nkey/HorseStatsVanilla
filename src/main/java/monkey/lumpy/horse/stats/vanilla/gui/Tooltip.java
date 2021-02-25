@@ -4,14 +4,12 @@ import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBox;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.Axis;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import net.minecraft.text.LiteralText;
 
 public class Tooltip extends LightweightGuiDescription {
-    private final int normalColor = 4210752;
-    private final int badColor = 16733525;
-    private final int goodColor = 43520;
     private ModConfig config;
 
     public Tooltip(double speed, double jump, int health, Integer strength) {
@@ -21,24 +19,24 @@ public class Tooltip extends LightweightGuiDescription {
         root.setSpacing(-8);
         
         // Coloring
-        int jumpColor = normalColor;
-        int speedColor = normalColor;
-        int hearthColor = normalColor;
+        Color jumpColor = config.getNeutralColor();
+        Color speedColor = config.getNeutralColor();
+        Color hearthColor = config.getNeutralColor();
         if(config == null || config.useColors()) {
-            if(jump > 4) {jumpColor = goodColor;}
-            else if (jump < 2.5) {jumpColor = badColor;};
+            if(jump > config.getGoodHorseJumpValue()) {jumpColor = config.getGoodColor();;}
+            else if (jump < config.getBadHorseJumpValue()) {jumpColor = config.getBadColor();};
     
-            if(speed > 11) {speedColor = goodColor;} 
-            else if (speed < 7) {speedColor = badColor;};
+            if(speed > config.getGoodHorseSpeedValue()) {speedColor = config.getGoodColor();} 
+            else if (speed < config.getBadHorseSpeedValue()) {speedColor = config.getBadColor();};
     
-            if(health> 25) {hearthColor = goodColor;} 
-            else if (health < 20) {hearthColor = badColor;};
+            if(health> config.getGoodHorseHeartsValue()) {hearthColor = config.getGoodColor();} 
+            else if (health < config.getBadHorseHeartsValue()) {hearthColor = config.getBadColor();};
         }
 
         WBox speedBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel speedSymbol = new WLabel(new LiteralText("➟"), speedColor);
-        WLabel speedLabel = new WLabel(new LiteralText("" + speed), speedColor);
+        WLabel speedSymbol = new WLabel(new LiteralText("➟"), speedColor.hashCode());
+        WLabel speedLabel = new WLabel(new LiteralText("" + speed), speedColor.hashCode());
         // WLabel speedRange = new WLabel(new LiteralText("(4.8-14.5)"), normalColor);
         
         // speedSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -49,8 +47,8 @@ public class Tooltip extends LightweightGuiDescription {
 
         WBox jumpBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel jumpSymbol = new WLabel(new LiteralText("⇮"), jumpColor);
-        WLabel jumpLabel = new WLabel(new LiteralText("" + jump), jumpColor);
+        WLabel jumpSymbol = new WLabel(new LiteralText("⇮"), jumpColor.hashCode());
+        WLabel jumpLabel = new WLabel(new LiteralText("" + jump), jumpColor.hashCode());
         // WLabel jumpRange = new WLabel(new LiteralText("(1-5.1)"), normalColor);
         
         // jumpSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -61,8 +59,8 @@ public class Tooltip extends LightweightGuiDescription {
 
         WBox healthBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel healthSymbol = new WLabel(new LiteralText("♥"), hearthColor);
-        WLabel healthLabel = new WLabel(new LiteralText("" + health), hearthColor);
+        WLabel healthSymbol = new WLabel(new LiteralText("♥"), hearthColor.hashCode());
+        WLabel healthLabel = new WLabel(new LiteralText("" + health), hearthColor.hashCode());
         // WLabel healthRange = new WLabel(new LiteralText("(15-30)"), normalColor);
         
         // healthSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -76,15 +74,15 @@ public class Tooltip extends LightweightGuiDescription {
         root.add(healthBox);
 
         if(strength != null) {
-            int strengthColor = normalColor;
+            Color strengthColor = config.getNeutralColor();;
             if(config == null || config.useColors()) {
-                if(strength > 9) {strengthColor = goodColor;} 
-                else if (strength < 6) {strengthColor = badColor;};
+                if(strength > config.getGoodStrengthValue()) {strengthColor = config.getGoodColor();} 
+                else if (strength < config.getGoodStrengthValue()) {strengthColor = config.getBadColor();};
             }
 
             WBox strengthBox = new WBox(Axis.HORIZONTAL);
-            WLabel strengthSymbol = new WLabel(new LiteralText("▦"), strengthColor);
-            WLabel strengthLabel = new WLabel(new LiteralText("" + strength), strengthColor);
+            WLabel strengthSymbol = new WLabel(new LiteralText("▦"), strengthColor.hashCode());
+            WLabel strengthLabel = new WLabel(new LiteralText("" + strength), strengthColor.hashCode());
             strengthBox.add(strengthSymbol);
             strengthBox.add(strengthLabel);
 

@@ -1,8 +1,8 @@
 package monkey.lumpy.horse.stats.vanilla;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 
 public class HorseStatsVanilla implements ModInitializer {

@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import monkey.lumpy.horse.stats.vanilla.gui.Tooltip;
