@@ -12,7 +12,7 @@ import net.minecraft.text.LiteralText;
 public class Tooltip extends LightweightGuiDescription {
     private ModConfig config;
 
-    public Tooltip(double speed, double jump, double health, Integer strength) {
+    public Tooltip(double speed, double jump, double health) {
         config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         WBox root = new WBox(Axis.VERTICAL);
         setRootPanel(root);
@@ -72,23 +72,6 @@ public class Tooltip extends LightweightGuiDescription {
         root.add(speedBox);
         root.add(jumpBox);
         root.add(healthBox);
-
-        if(strength != null) {
-            Color strengthColor = config.getNeutralColor();;
-            if(config == null || config.useColors()) {
-                if(strength > config.getGoodStrengthValue()) {strengthColor = config.getGoodColor();} 
-                else if (strength < config.getGoodStrengthValue()) {strengthColor = config.getBadColor();};
-            }
-
-            WBox strengthBox = new WBox(Axis.HORIZONTAL);
-            WLabel strengthSymbol = new WLabel(new LiteralText("▦"), strengthColor.hashCode());
-            WLabel strengthLabel = new WLabel(new LiteralText("" + strength), strengthColor.hashCode());
-            strengthBox.add(strengthSymbol);
-            strengthBox.add(strengthLabel);
-
-            root.add(strengthBox);
-        }
-
         root.validate(this);
 
     }

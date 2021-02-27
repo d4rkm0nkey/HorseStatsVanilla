@@ -20,7 +20,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.entity.passive.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -52,18 +51,10 @@ public class AbstractDonkeyEntityMixin extends HorseBaseEntity {
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
             double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
             
-            Integer strength = null;
-            if (LlamaEntity.class.isAssignableFrom(this.getClass())) {
-                strength = 3 * this.getStrength();
-            }
             MinecraftClient.getInstance().openScreen(
-                new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue, strength))
+                new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue))
             );
         }
         return ret.getReturnValue();
-    }
-
-    public int getStrength() {
-        return 0;
     }
 }
