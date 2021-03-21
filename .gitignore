@@ -27,3 +27,4 @@ bin/
 # fabric
 
 run/
+build/libs/horse-stats-vanilla-4.1.7.jar
