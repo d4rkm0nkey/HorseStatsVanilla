@@ -70,8 +70,8 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         if (!hasChest) {
             float spacer = 1.0F;
             if(config.showMaxMin()) {
-                this.textRenderer.draw(matrices, "(4.8-14.5)", 119.0F, 26.0F, config.getNeutralColor().hashCode());
-                this.textRenderer.draw(matrices, "(1-5.1)", 119.0F, 36.0F, config.getNeutralColor().hashCode());
+                this.textRenderer.draw(matrices, "(4.7-14.2)", 119.0F, 26.0F, config.getNeutralColor().hashCode());
+                this.textRenderer.draw(matrices, "(1-5.3)", 119.0F, 36.0F, config.getNeutralColor().hashCode());
                 this.textRenderer.draw(matrices, "(15-30)", 119.0F, 46.0F, config.getNeutralColor().hashCode());
             } else {
                 spacer = 10.0F;
