@@ -4,7 +4,6 @@ import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBox;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.Axis;
-import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
@@ -14,12 +13,10 @@ public class Tooltip extends LightweightGuiDescription {
     private ModConfig config;
 
     public Tooltip(double speed, double jump, double health) {
-        super();
         config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         WBox root = new WBox(Axis.VERTICAL);
         setRootPanel(root);
         root.setSpacing(-8);
-        root.setInsets(new Insets(5,5,0,5));
         
         // Coloring
         Color jumpColor = config.getNeutralColor();
