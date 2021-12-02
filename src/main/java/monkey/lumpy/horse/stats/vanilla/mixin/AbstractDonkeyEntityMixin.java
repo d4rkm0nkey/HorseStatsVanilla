@@ -52,7 +52,7 @@ public class AbstractDonkeyEntityMixin extends HorseBaseEntity {
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
             double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
             
-            MinecraftClient.getInstance().openScreen(
+            MinecraftClient.getInstance().setScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue))
             );
         }

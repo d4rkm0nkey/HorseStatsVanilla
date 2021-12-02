@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -30,13 +30,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "com.terraformersmc:modmenu:2.0.0-beta.7"
-	modImplementation "io.github.cottonmc:LibGui:4.0.0-beta.4+1.17-rc1"
+	modImplementation "com.terraformersmc:modmenu:3.0.0"
+	modImplementation "io.github.cottonmc:LibGui:5.0.0-beta.2+1.18-rc1"
 	modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.34") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 	include "me.shedaniel.cloth:cloth-config-fabric:5.0.34"
-	include "io.github.cottonmc:LibGui:4.0.0-beta.4+1.17-rc1"
+	include "io.github.cottonmc:LibGui:5.0.0-beta.2+1.18-rc1"
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }
