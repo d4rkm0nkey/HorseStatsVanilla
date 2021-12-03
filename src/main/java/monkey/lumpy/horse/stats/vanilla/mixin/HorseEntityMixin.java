@@ -52,7 +52,7 @@ public abstract class HorseEntityMixin extends HorseBaseEntity {
 
             System.out.println("Hello!");
 
-            MinecraftClient.getInstance().openScreen(
+            MinecraftClient.getInstance().setScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue))
             );
         }
