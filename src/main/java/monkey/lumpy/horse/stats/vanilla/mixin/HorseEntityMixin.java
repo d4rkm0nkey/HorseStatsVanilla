@@ -16,7 +16,7 @@ import monkey.lumpy.horse.stats.vanilla.util.Converter;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -24,11 +24,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 @Mixin(HorseEntity.class)
-public abstract class HorseEntityMixin extends HorseBaseEntity {
+public abstract class HorseEntityMixin extends AbstractHorseEntity {
 
     private ModConfig config;
 
-    protected HorseEntityMixin(EntityType<? extends HorseBaseEntity> entityType, World world) {
+    protected HorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
         super(entityType, world);
     }
 
