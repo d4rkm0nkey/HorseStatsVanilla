@@ -2,10 +2,10 @@ package monkey.lumpy.horse.stats.vanilla.util;
 
 public class Converter {
     public static double jumpStrengthToJumpHeight(double strength) {
-        return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
+        return -0.9078526641492174 * strength * strength * strength + 5.380296913832499 * strength * strength + 0.8696246225981936 * strength - 0.04348078381106464;
     }
 
     public static double genericSpeedToBlocPerSec(double speed) {
-        return 0.132 * speed * speed + 42.119 * speed;
+        return 42.15747598316077 * speed;
     }
 }
