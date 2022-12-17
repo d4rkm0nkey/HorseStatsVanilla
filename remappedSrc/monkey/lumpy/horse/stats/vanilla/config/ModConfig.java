@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
 import me.shedaniel.math.Color;
-import monkey.lumpy.horse.stats.vanilla.config.ModConfig.ColorObj;
 
 @Config(name = "horsestatsvanilla")
 public class ModConfig implements ConfigData {

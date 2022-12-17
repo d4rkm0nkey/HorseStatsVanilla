@@ -12,7 +12,7 @@ public class ToolTipGui extends CottonClientScreen {
     @Override
     public boolean keyPressed(int ch, int keyCode, int modifiers) {
         if(keyCode == 26) {
-            onClose();
+            close();
         }
         return super.keyPressed(ch, keyCode, modifiers);
     }
@@ -20,7 +20,7 @@ public class ToolTipGui extends CottonClientScreen {
     @Override
     public boolean keyReleased(int ch, int keyCode, int modifiers) {
         if(keyCode == 50) {
-            onClose();
+            close();
         }
         return super.keyReleased(ch, keyCode, modifiers);
     }
