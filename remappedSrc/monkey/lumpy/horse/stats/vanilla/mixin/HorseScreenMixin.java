@@ -5,7 +5,7 @@ import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.LlamaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.HorseScreenHandler;
@@ -26,7 +26,7 @@ import java.text.DecimalFormat;
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
     @Shadow
     @Final
-    private HorseBaseEntity entity;
+    private AbstractHorseEntity entity;
     private ModConfig config;
 
     public HorseScreenMixin(HorseScreenHandler handler, PlayerInventory inventory, Text title) {

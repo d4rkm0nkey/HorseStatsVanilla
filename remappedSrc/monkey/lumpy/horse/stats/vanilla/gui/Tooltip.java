@@ -4,19 +4,22 @@ import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBox;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.Axis;
+import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class Tooltip extends LightweightGuiDescription {
     private ModConfig config;
 
     public Tooltip(double speed, double jump, double health) {
+        super();
         config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         WBox root = new WBox(Axis.VERTICAL);
         setRootPanel(root);
         root.setSpacing(-8);
+        root.setInsets(new Insets(5,5,0,5));
         
         // Coloring
         Color jumpColor = config.getNeutralColor();
@@ -35,8 +38,8 @@ public class Tooltip extends LightweightGuiDescription {
 
         WBox speedBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel speedSymbol = new WLabel(new LiteralText("➟"), speedColor.hashCode());
-        WLabel speedLabel = new WLabel(new LiteralText("" + speed), speedColor.hashCode());
+        WLabel speedSymbol = new WLabel(Text.literal("➟"), speedColor.hashCode());
+        WLabel speedLabel = new WLabel(Text.literal("" + speed), speedColor.hashCode());
         // WLabel speedRange = new WLabel(new LiteralText("(4.8-14.5)"), normalColor);
         
         // speedSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -47,8 +50,8 @@ public class Tooltip extends LightweightGuiDescription {
 
         WBox jumpBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel jumpSymbol = new WLabel(new LiteralText("⇮"), jumpColor.hashCode());
-        WLabel jumpLabel = new WLabel(new LiteralText("" + jump), jumpColor.hashCode());
+        WLabel jumpSymbol = new WLabel(Text.literal("⇮"), jumpColor.hashCode());
+        WLabel jumpLabel = new WLabel(Text.literal("" + jump), jumpColor.hashCode());
         // WLabel jumpRange = new WLabel(new LiteralText("(1-5.1)"), normalColor);
         
         // jumpSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -59,8 +62,8 @@ public class Tooltip extends LightweightGuiDescription {
 
         WBox healthBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel healthSymbol = new WLabel(new LiteralText("♥"), hearthColor.hashCode());
-        WLabel healthLabel = new WLabel(new LiteralText("" + health), hearthColor.hashCode());
+        WLabel healthSymbol = new WLabel(Text.literal("♥"), hearthColor.hashCode());
+        WLabel healthLabel = new WLabel(Text.literal("" + health), hearthColor.hashCode());
         // WLabel healthRange = new WLabel(new LiteralText("(15-30)"), normalColor);
         
         // healthSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
