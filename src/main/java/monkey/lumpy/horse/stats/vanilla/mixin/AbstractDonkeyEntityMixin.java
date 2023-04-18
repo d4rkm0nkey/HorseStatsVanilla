@@ -26,7 +26,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 @Mixin(AbstractDonkeyEntity.class)
-public class AbstractDonkeyEntityMixin extends AbstractHorseEntity {
+public abstract class AbstractDonkeyEntityMixin extends AbstractHorseEntity {
 
     private ModConfig config;
 
