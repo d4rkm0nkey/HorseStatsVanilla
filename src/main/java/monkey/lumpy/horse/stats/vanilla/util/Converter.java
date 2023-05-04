@@ -5,8 +5,8 @@ public class Converter {
         double height = 0;
         double velocity = strength;
         while(velocity > 0) {
-            height += velocity
-            velocity = (velocity - .08) * .98 * .98
+            height += velocity;
+            velocity = (velocity - .08) * .98 * .98;
         }
         return height;
     }
