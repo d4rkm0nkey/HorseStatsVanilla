@@ -10,10 +10,10 @@ import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import net.minecraft.text.Text;
 
-public class Tooltip extends LightweightGuiDescription {
+public class TooltipDonkey extends LightweightGuiDescription {
     private ModConfig config;
 
-    public Tooltip(double speed, double jump, int health) {
+    public TooltipDonkey(double speed, double jump, int health, int strength) {
         super();
         config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         WBox root = new WBox(Axis.VERTICAL);
@@ -25,7 +25,9 @@ public class Tooltip extends LightweightGuiDescription {
         Color jumpColor = config.getNeutralColor();
         Color speedColor = config.getNeutralColor();
         Color hearthColor = config.getNeutralColor();
+        Color strengthColor = config.getNeutralColor();
         if(config == null || config.useColors()) {
+            assert config != null;
             if(jump > config.getGoodHorseJumpValue()) {jumpColor = config.getGoodColor();}
             else if (jump < config.getBadHorseJumpValue()) {jumpColor = config.getBadColor();}
     
@@ -34,6 +36,9 @@ public class Tooltip extends LightweightGuiDescription {
     
             if(health> config.getGoodHorseHeartsValue()) {hearthColor = config.getGoodColor();} 
             else if (health < config.getBadHorseHeartsValue()) {hearthColor = config.getBadColor();}
+
+            if(strength> config.getGoodStrengthValue()) {strengthColor = config.getGoodColor();}
+            else if (strength < config.getBadStrengthValue()) {strengthColor = config.getBadColor();}
         }
 
         WBox speedBox = new WBox(Axis.HORIZONTAL);
@@ -41,7 +46,7 @@ public class Tooltip extends LightweightGuiDescription {
         WLabel speedSymbol = new WLabel(Text.literal("➟"), speedColor.hashCode());
         WLabel speedLabel = new WLabel(Text.literal(String.valueOf(speed)), speedColor.hashCode());
         // WLabel speedRange = new WLabel(new LiteralText("(4.8-14.5)"), normalColor);
-        
+
         // speedSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
 
         speedBox.add(speedSymbol);
@@ -72,9 +77,22 @@ public class Tooltip extends LightweightGuiDescription {
         healthBox.add(healthLabel);
         // healthBox.add(healthRange);
 
+        WBox strengthBox = new WBox(Axis.HORIZONTAL);
+
+        WLabel strengthSymbol = new WLabel(Text.literal("▦"), strengthColor.hashCode());
+        WLabel strengthLabel = new WLabel(Text.literal(String.valueOf(strength)), strengthColor.hashCode());
+        // WLabel strengthRange = new WLabel(new LiteralText("(1-5.1)"), normalColor);
+
+        // strengthSymbol.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        strengthBox.add(strengthSymbol);
+        strengthBox.add(strengthLabel);
+        // strengthBox.add(jumpRange);
+
         root.add(speedBox);
         root.add(jumpBox);
         root.add(healthBox);
+        root.add(strengthBox);
         root.validate(this);
 
     }

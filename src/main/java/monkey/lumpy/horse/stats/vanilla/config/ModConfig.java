@@ -8,29 +8,23 @@ import me.shedaniel.math.Color;
 
 @Config(name = "horsestatsvanilla")
 public class ModConfig implements ConfigData {
-    static class ColorObj {
-        public ColorObj(int red, int green, int blue) {
-            this.red = red;
-            this.green = green;
-            this.blue = blue;
-        }
-        @ConfigEntry.BoundedDiscrete(max=255)
-        int red;
-        @ConfigEntry.BoundedDiscrete(max=255)
-        int green;
-        @ConfigEntry.BoundedDiscrete(max=255)
-        int blue;
 
-        Color getColor() {
-            return Color.ofRGB(red,green,blue);
-        }
-    }
+    //private Color goodColor = Color.ofOpaque(test);
+    private boolean showValue = true;
     @ConfigEntry.Gui.Tooltip
-    private boolean useColors = true;
-    @ConfigEntry.Gui.Tooltip
-    private boolean showMaxMin = true;
+    private boolean showMaxMin = false;
     @ConfigEntry.Gui.Tooltip
     private boolean enableTooltip = true;
+    private boolean valueUp = false;
+    @ConfigEntry.Gui.Tooltip
+    private boolean useColors = true;
+
+    @ConfigEntry.ColorPicker(allowAlpha = true)
+    private int goodColor = 0xff00b400;
+    @ConfigEntry.ColorPicker(allowAlpha = true)
+    private int neutralColor = 0xff464646;
+    @ConfigEntry.ColorPicker(allowAlpha = true)
+    private int badColor = 0xffff0000;
 
     @Category("coloring")
     @ConfigEntry.Gui.Tooltip
@@ -57,21 +51,13 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     private float badStrengthValue = 6;
 
-    
-    @ConfigEntry.Gui.CollapsibleObject
-    private ColorObj goodColor = new ColorObj(0,180,0);
-    @ConfigEntry.Gui.CollapsibleObject
-    private ColorObj neutralColor = new ColorObj(70,70,70);
-    @ConfigEntry.Gui.CollapsibleObject
-    private ColorObj badColor = new ColorObj(255,0,0);
+    public boolean showValue() {  return showValue; }
 
-    public boolean useColors() {
-        return useColors;
-    }
+    public boolean useColors() { return useColors; }
 
-    public boolean showMaxMin() {
-        return showMaxMin;
-    }
+    public boolean showMaxMin() { return showMaxMin; }
+
+    public boolean valueUp() { return valueUp; }
 
     public boolean isTooltipEnabled() {
         return enableTooltip;
@@ -110,14 +96,14 @@ public class ModConfig implements ConfigData {
     }
 
     public Color getGoodColor() {
-        return goodColor.getColor();
+        return Color.ofOpaque(goodColor);
     }
 
     public Color getNeutralColor() {
-        return neutralColor.getColor();
+        return Color.ofOpaque(neutralColor);
     }
 
     public Color getBadColor() {
-        return badColor.getColor();
+        return Color.ofOpaque(badColor);
     }
 }

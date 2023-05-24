@@ -18,7 +18,7 @@
     "main": [
       "monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla"
     ],
-    "modmenu": [ "monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl" ] 
+    "modmenu": [ "monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl" ]
   },
   "mixins": [
     "horsestatsvanilla.mixins.json"
