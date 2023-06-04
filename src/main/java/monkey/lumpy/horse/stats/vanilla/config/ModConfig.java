@@ -9,7 +9,6 @@ import me.shedaniel.math.Color;
 @Config(name = "horsestatsvanilla")
 public class ModConfig implements ConfigData {
 
-    //private Color goodColor = Color.ofOpaque(test);
     private boolean showValue = true;
     @ConfigEntry.Gui.Tooltip
     private boolean showMaxMin = false;
