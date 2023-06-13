@@ -39,16 +39,16 @@ public abstract class HorseEntityMixin extends AbstractHorseEntity {
             config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         }
         
-        if (this.world.isClient && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
+        if (config.showValue() && this.world.isClient && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
             // Show tooltip
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpstrength = df.format( Converter.jumpStrengthToJumpHeight(this.getJumpStrength()) );
+            String jumpStrength = df.format( Converter.jumpStrengthToJumpHeight(this.getJumpStrength()) );
             String maxHealth = df.format(this.getMaxHealth());
-            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));         
+            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
             
-            double jumpValue = new BigDecimal(jumpstrength.replace(',', '.')).doubleValue();
+            double jumpValue = new BigDecimal(jumpStrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-            double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
+            int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
 
             MinecraftClient.getInstance().setScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue))
