@@ -9,27 +9,31 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/horsestatsvanilla",
-    "sources": "https://github.com/d4rkm0nkey/HorseStatsVanilla"
+    "sources": "https://github.com/d4rkm0nkey/HorseStatsVanilla",
+    "issues": "https://github.com/d4rkm0nkey/HorseStatsVanilla/issues"
   },
   "license": "CC0-1.0",
   "icon": "assets/horsestatsvanilla/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": [
-      "monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla"
+    "client": [
+      "monkey.lumpy.horse.stats.vanilla.HorseStatsVanillaClient"
     ],
     "modmenu": [ "monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl" ]
   },
   "mixins": [
-    "horsestatsvanilla.mixins.json"
+    {
+      "config": "horsestatsvanilla.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
     "fabricloader": ">=0.14.21",
-    "fabric": "*",
-    "minecraft": "1.20.x"
+    "java": ">=17",
+    "minecraft": ">=1.20",
+    "fabric-api": "*"
   },
   "suggests": {
     "flamingo": "*"
-  },
-  "custom": { "modmenu:clientsideOnly": true }
+  }
 }

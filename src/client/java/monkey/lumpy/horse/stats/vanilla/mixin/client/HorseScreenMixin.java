@@ -1,8 +1,12 @@
-package monkey.lumpy.horse.stats.vanilla.mixin;
+package monkey.lumpy.horse.stats.vanilla.mixin.client;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.math.Color;
+import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
+import monkey.lumpy.horse.stats.vanilla.util.Converter;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -14,11 +18,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.math.Color;
-import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
-import monkey.lumpy.horse.stats.vanilla.util.Converter;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -27,14 +26,15 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
     @Shadow
     @Final
     private AbstractHorseEntity entity;
+
     private ModConfig config;
 
     public HorseScreenMixin(HorseScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        super.drawForeground(matrices, mouseX, mouseY);
+    protected void drawForeground(DrawContext drawContext, int mouseX, int mouseY) {
+        super.drawForeground(drawContext, mouseX, mouseY);
         if(config == null) {
             config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         }
@@ -65,34 +65,30 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
             }
 
             if (config.valueUp()) {
+                drawContext.drawText(textRenderer, "➟ " + speed, 87, 6, speedColor.hashCode(), false);
+                drawContext.drawText(textRenderer, "⇮ " + jumpStrength, 122, 6, jumpColor.hashCode(), false);
+                drawContext.drawText(textRenderer, "♥ " + maxHealth, 147, 6, hearthColor.hashCode(), false);
                 if (config.showMaxMin()) {
-                    this.textRenderer.draw(matrices, "➟ " + speed, 87.0F, 6.0F, speedColor.hashCode());
-                    this.textRenderer.draw(matrices, "⇮ " + jumpStrength, 122.0F, 6.0F, jumpColor.hashCode());
-                    this.textRenderer.draw(matrices, "♥ " + maxHealth, 147.0F, 6.0F, hearthColor.hashCode());
-                    this.textRenderer.draw(matrices, "➟ (4.7-14.2)", 180.0F, 30.0F, config.getNeutralColor().hashCode());
-                    this.textRenderer.draw(matrices, "⇮ (1-5.3)", 180.0F, 40.0F, config.getNeutralColor().hashCode());
-                    this.textRenderer.draw(matrices, "♥ (15-30)", 180F, 50.0F, config.getNeutralColor().hashCode());
-                } else {
-                    this.textRenderer.draw(matrices, "➟ " + speed, 87.0F, 6.0F, speedColor.hashCode());
-                    this.textRenderer.draw(matrices, "⇮ " + jumpStrength, 122.0F, 6.0F, jumpColor.hashCode());
-                    this.textRenderer.draw(matrices, "♥ " + maxHealth, 147.0F, 6.0F, hearthColor.hashCode());
+                    drawContext.drawText(textRenderer, "➟ (4.7-14.2)", 180, 30, config.getNeutralColor().hashCode(), false);
+                    drawContext.drawText(textRenderer, "⇮ (1-5.3)", 180, 40, config.getNeutralColor().hashCode(), false);
+                    drawContext.drawText(textRenderer, "♥ (15-30)", 180, 50, config.getNeutralColor().hashCode(), false);
                 }
             } else if (!hasChest) {
                 if (config.showMaxMin()) {
-                    this.textRenderer.draw(matrices, "(4.7-14.2)", 119.0F, 26.0F, config.getNeutralColor().hashCode());
-                    this.textRenderer.draw(matrices, "(1-5.3)", 119.0F, 36.0F, config.getNeutralColor().hashCode());
-                    this.textRenderer.draw(matrices, "(15-30)", 119.0F, 46.0F, config.getNeutralColor().hashCode());
+                    drawContext.drawText(textRenderer, "(4.7-14.2)", 119, 26, config.getNeutralColor().hashCode(), false);
+                    drawContext.drawText(textRenderer, "(1-5.3)", 119, 36, config.getNeutralColor().hashCode(), false);
+                    drawContext.drawText(textRenderer, "(15-30)", 119, 46, config.getNeutralColor().hashCode(), false);
                 }
-                this.textRenderer.draw(matrices, "➟", 82.0F, 26.0F, speedColor.hashCode());
-                this.textRenderer.draw(matrices, speed, 93.0F, 26.0F, speedColor.hashCode());
-                this.textRenderer.draw(matrices, "⇮", 84.0F, 36.0F, jumpColor.hashCode());
-                this.textRenderer.draw(matrices, jumpStrength, 93.0F, 36.0F, jumpColor.hashCode());
-                this.textRenderer.draw(matrices, "♥", 83.0F, 46.0F, hearthColor.hashCode());
-                this.textRenderer.draw(matrices, maxHealth, 93.0F, 46.0F, hearthColor.hashCode());
+                drawContext.drawText(textRenderer,  "➟", 82, 26, speedColor.hashCode(), false);
+                drawContext.drawText(textRenderer,  speed, 93, 26, speedColor.hashCode(), false);
+                drawContext.drawText(textRenderer,  "⇮", 84, 36, jumpColor.hashCode(), false);
+                drawContext.drawText(textRenderer, jumpStrength, 93, 36, jumpColor.hashCode(), false);
+                drawContext.drawText(textRenderer,  "♥", 83, 46, hearthColor.hashCode(), false);
+                drawContext.drawText(textRenderer, maxHealth, 93, 46, hearthColor.hashCode(), false);
             } else {
-                this.textRenderer.draw(matrices, "➟ " + speed, 80.0F, 6.0F, speedColor.hashCode());
-                this.textRenderer.draw(matrices, "⇮ " + jumpStrength, 115.0F, 6.0F, jumpColor.hashCode());
-                this.textRenderer.draw(matrices, "♥ " + maxHealth, 140.0F, 6.0F, hearthColor.hashCode());
+                drawContext.drawText(textRenderer, "➟ " + speed, 80, 6, speedColor.hashCode(), false);
+                drawContext.drawText(textRenderer, "⇮ " + jumpStrength, 115, 6, jumpColor.hashCode(), false);
+                drawContext.drawText(textRenderer, "♥ " + maxHealth, 140, 6, hearthColor.hashCode(), false);
             }
 
             Color strengthColor = config.getNeutralColor();
@@ -106,10 +102,10 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
                 }
                 if (!hasChest) {
                     if (config.valueUp()) {
-                        this.textRenderer.draw(matrices, "▦ " + strength, 62.0F, 6.0F, strengthColor.hashCode());
+                        drawContext.drawText(textRenderer, "▦ " + strength, 62, 6, strengthColor.hashCode(), false);
                     } else {
-                        this.textRenderer.draw(matrices, "▦", 83.0F, 56.0F, strengthColor.hashCode());
-                        this.textRenderer.draw(matrices, "" + strength, 93.0F, 56.0F, strengthColor.hashCode());
+                        drawContext.drawText(textRenderer, "▦", 83, 56, strengthColor.hashCode(), false);
+                        drawContext.drawText(textRenderer, String.valueOf(strength), 93, 56, strengthColor.hashCode(), false);
                     }
                 }
             }
