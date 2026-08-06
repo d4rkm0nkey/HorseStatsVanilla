@@ -4,108 +4,105 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.util.Converter;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.HorseScreen;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.passive.LlamaEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.HorseScreenHandler;
-import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractMountInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.equine.AbstractChestedHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.Llama;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.HorseInventoryMenu;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-@Mixin(HorseScreen.class)
-public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
-    @Shadow
-    @Final
-    private AbstractHorseEntity entity;
+@Mixin(HorseInventoryScreen.class)
+public abstract class HorseScreenMixin extends AbstractMountInventoryScreen<HorseInventoryMenu> {
 
-    private ModConfig config;
-
-    public HorseScreenMixin(HorseScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
+    public HorseScreenMixin(HorseInventoryMenu menu, Inventory inventory, Component title,
+                            int inventoryColumns, LivingEntity mount) {
+        super(menu, inventory, title, inventoryColumns, mount);
     }
 
-    protected void drawForeground(DrawContext drawContext, int mouseX, int mouseY) {
-        super.drawForeground(drawContext, mouseX, mouseY);
-        if(config == null) {
-            config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-        }
-        if (config.showValue()) {
-            boolean hasChest = AbstractDonkeyEntity.class.isAssignableFrom(this.entity.getClass()) && ((AbstractDonkeyEntity) this.entity).hasChest();
-            DecimalFormat df = new DecimalFormat("#.#");
-            String jumpStrength = df.format(Converter.jumpStrengthToJumpHeight(this.entity.getJumpStrength()));
-            String maxHealth = df.format(this.entity.getMaxHealth());
-            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
+    @Override
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        super.extractLabels(guiGraphics, mouseX, mouseY);
+        ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-            // Coloring
+        if (config.showValue()) {
+            AbstractHorse horse = (AbstractHorse) this.mount;
+            boolean hasChest = horse instanceof AbstractChestedHorse chestedHorse && chestedHorse.hasChest();
+
+            double jumpValue = Math.round(Converter.jumpStrengthToJumpHeight(horse.getAttributeValue(Attributes.JUMP_STRENGTH)) * 10.0) / 10.0;
+            double speedValue = Math.round(Converter.genericSpeedToBlocPerSec(horse.getAttributeValue(Attributes.MOVEMENT_SPEED)) * 10.0) / 10.0;
+            double healthValue = Math.round(horse.getMaxHealth() * 10.0) / 10.0;
+
+            DecimalFormat df = new DecimalFormat("#.#");
+            String jumpStrength = df.format(jumpValue);
+            String maxHealth = df.format(healthValue);
+            String speed = df.format(speedValue);
+
             Color jumpColor = config.getNeutralColor();
             Color speedColor = config.getNeutralColor();
-            Color hearthColor = config.getNeutralColor();
-            if(config.useColors()) {
-                double jumpValue = new BigDecimal(jumpStrength.replace(',', '.')).doubleValue();
-                double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
-                double healthValue = new BigDecimal(maxHealth.replace(',', '.')).doubleValue();
+            Color healthColor = config.getNeutralColor();
 
-                if(jumpValue > config.getGoodHorseJumpValue()) {jumpColor = config.getGoodColor();}
-                else if (jumpValue < config.getBadHorseJumpValue()) {jumpColor = config.getBadColor();}
+            if (config.useColors()) {
+                if (jumpValue > config.getGoodHorseJumpValue()) jumpColor = config.getGoodColor();
+                else if (jumpValue < config.getBadHorseJumpValue()) jumpColor = config.getBadColor();
 
-                if(speedValue > config.getGoodHorseSpeedValue()) {speedColor = config.getGoodColor();}
-                else if (speedValue < config.getBadHorseSpeedValue()) {speedColor = config.getBadColor();}
+                if (speedValue > config.getGoodHorseSpeedValue()) speedColor = config.getGoodColor();
+                else if (speedValue < config.getBadHorseSpeedValue()) speedColor = config.getBadColor();
 
-                if(healthValue > config.getGoodHorseHeartsValue()) {hearthColor = config.getGoodColor();}
-                else if (healthValue < config.getBadHorseHeartsValue()) {hearthColor = config.getBadColor();}
+                if (healthValue > config.getGoodHorseHeartsValue()) healthColor = config.getGoodColor();
+                else if (healthValue < config.getBadHorseHeartsValue()) healthColor = config.getBadColor();
             }
 
             if (config.valueUp()) {
-                drawContext.drawText(textRenderer, "➟ " + speed, 87, 6, speedColor.hashCode(), false);
-                drawContext.drawText(textRenderer, "⇮ " + jumpStrength, 122, 6, jumpColor.hashCode(), false);
-                drawContext.drawText(textRenderer, "♥ " + maxHealth, 147, 6, hearthColor.hashCode(), false);
+                guiGraphics.text(this.font, "➟ " + speed, 87, 6, speedColor.hashCode(), false);
+                guiGraphics.text(this.font, "⇮ " + jumpStrength, 122, 6, jumpColor.hashCode(), false);
+                guiGraphics.text(this.font, "♥ " + maxHealth, 147, 6, healthColor.hashCode(), false);
+
                 if (config.showMaxMin()) {
-                    drawContext.drawText(textRenderer, "➟ (4.7-14.2)", 180, 30, config.getNeutralColor().hashCode(), false);
-                    drawContext.drawText(textRenderer, "⇮ (1-5.3)", 180, 40, config.getNeutralColor().hashCode(), false);
-                    drawContext.drawText(textRenderer, "♥ (15-30)", 180, 50, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "➟ (4.7-14.2)", 180, 30, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "⇮ (1-5.3)", 180, 40, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "♥ (15-30)", 180, 50, config.getNeutralColor().hashCode(), false);
                 }
             } else if (!hasChest) {
                 if (config.showMaxMin()) {
-                    drawContext.drawText(textRenderer, "(4.7-14.2)", 119, 26, config.getNeutralColor().hashCode(), false);
-                    drawContext.drawText(textRenderer, "(1-5.3)", 119, 36, config.getNeutralColor().hashCode(), false);
-                    drawContext.drawText(textRenderer, "(15-30)", 119, 46, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "(4.7-14.2)", 119, 26, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "(1-5.3)", 119, 36, config.getNeutralColor().hashCode(), false);
+                    guiGraphics.text(this.font, "(15-30)", 119, 46, config.getNeutralColor().hashCode(), false);
                 }
-                drawContext.drawText(textRenderer,  "➟", 82, 26, speedColor.hashCode(), false);
-                drawContext.drawText(textRenderer,  speed, 93, 26, speedColor.hashCode(), false);
-                drawContext.drawText(textRenderer,  "⇮", 84, 36, jumpColor.hashCode(), false);
-                drawContext.drawText(textRenderer, jumpStrength, 93, 36, jumpColor.hashCode(), false);
-                drawContext.drawText(textRenderer,  "♥", 83, 46, hearthColor.hashCode(), false);
-                drawContext.drawText(textRenderer, maxHealth, 93, 46, hearthColor.hashCode(), false);
+                guiGraphics.text(this.font, "➟", 82, 26, speedColor.hashCode(), false);
+                guiGraphics.text(this.font, speed, 93, 26, speedColor.hashCode(), false);
+                guiGraphics.text(this.font, "⇮", 84, 36, jumpColor.hashCode(), false);
+                guiGraphics.text(this.font, jumpStrength, 93, 36, jumpColor.hashCode(), false);
+                guiGraphics.text(this.font, "♥", 83, 46, healthColor.hashCode(), false);
+                guiGraphics.text(this.font, maxHealth, 93, 46, healthColor.hashCode(), false);
             } else {
-                drawContext.drawText(textRenderer, "➟ " + speed, 80, 6, speedColor.hashCode(), false);
-                drawContext.drawText(textRenderer, "⇮ " + jumpStrength, 115, 6, jumpColor.hashCode(), false);
-                drawContext.drawText(textRenderer, "♥ " + maxHealth, 140, 6, hearthColor.hashCode(), false);
+                guiGraphics.text(this.font, "➟ " + speed, 80, 6, speedColor.hashCode(), false);
+                guiGraphics.text(this.font, "⇮ " + jumpStrength, 115, 6, jumpColor.hashCode(), false);
+                guiGraphics.text(this.font, "♥ " + maxHealth, 140, 6, healthColor.hashCode(), false);
             }
 
-            Color strengthColor = config.getNeutralColor();
+            if (horse instanceof Llama llama) {
+                int strength = 3 * llama.getStrength();
+                Color strengthColor = config.getNeutralColor();
 
-            if (LlamaEntity.class.isAssignableFrom(this.entity.getClass())) {
-                int strength = 3 * ((LlamaEntity) this.entity).getStrength();
-
-                if(config.useColors()) {
-                    if(strength > config.getGoodHorseJumpValue()) {strengthColor = config.getGoodColor();}
-                    else if (strength < config.getBadHorseJumpValue()) {strengthColor = config.getBadColor();}
+                if (config.useColors()) {
+                    if (strength > config.getGoodHorseJumpValue()) strengthColor = config.getGoodColor();
+                    else if (strength < config.getBadHorseJumpValue()) strengthColor = config.getBadColor();
                 }
+
                 if (!hasChest) {
                     if (config.valueUp()) {
-                        drawContext.drawText(textRenderer, "▦ " + strength, 62, 6, strengthColor.hashCode(), false);
+                        guiGraphics.text(this.font, "▦ " + strength, 62, 6, strengthColor.hashCode(), false);
                     } else {
-                        drawContext.drawText(textRenderer, "▦", 83, 56, strengthColor.hashCode(), false);
-                        drawContext.drawText(textRenderer, String.valueOf(strength), 93, 56, strengthColor.hashCode(), false);
+                        guiGraphics.text(this.font, "▦", 83, 56, strengthColor.hashCode(), false);
+                        guiGraphics.text(this.font, String.valueOf(strength), 93, 56, strengthColor.hashCode(), false);
                     }
                 }
             }

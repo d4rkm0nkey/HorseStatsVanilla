@@ -50,18 +50,26 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     private float badStrengthValue = 6;
 
-    public boolean showValue() {  return showValue; }
+    public boolean showValue() {
+        return showValue;
+    }
 
-    public boolean useColors() { return useColors; }
+    public boolean useColors() {
+        return useColors;
+    }
 
-    public boolean showMaxMin() { return showMaxMin; }
+    public boolean showMaxMin() {
+        return showMaxMin;
+    }
 
-    public boolean valueUp() { return valueUp; }
+    public boolean valueUp() {
+        return valueUp;
+    }
 
     public boolean isTooltipEnabled() {
         return enableTooltip;
     }
-    
+
     public float getGoodHorseJumpValue() {
         return goodHorseJumpValue;
     }
