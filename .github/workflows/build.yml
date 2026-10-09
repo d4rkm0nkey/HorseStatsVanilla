@@ -10,31 +10,36 @@ jobs:
   build:
     strategy:
       matrix:
-        # Use these Java versions
-        java: [
-          17,    # Current Java LTS & minimum supported by Minecraft
-        ]
-        # and run on both Linux and Windows
-        os: [ubuntu-22.04, windows-2022]
+        # run on both Linux and Windows
+        os: [ubuntu-24.04, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
-      - name: setup jdk ${{ matrix.java }}
-        uses: actions/setup-java@v4
+        uses: gradle/actions/wrapper-validation@v6
+      - name: read java version
+        id: props
+        shell: bash
+        # Loom needs at least Java 21 to run, the mod itself targets java_version
+        run: |
+          java=$(grep '^java_version=' gradle.properties | cut -d= -f2 | tr -d '\r')
+          echo "java=$(( java > 21 ? java : 21 ))" >> "$GITHUB_OUTPUT"
+      - name: setup jdk ${{ steps.props.outputs.java }}
+        uses: actions/setup-java@v6
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ steps.props.outputs.java }}
           distribution: 'microsoft'
+      - name: setup gradle
+        uses: gradle/actions/setup-gradle@v6
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
       - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
-        uses: actions/upload-artifact@v4
+        if: ${{ runner.os == 'Linux' }} # Only upload artifacts built on one OS
+        uses: actions/upload-artifact@v7
         with:
           name: Artifacts
           path: build/libs/
