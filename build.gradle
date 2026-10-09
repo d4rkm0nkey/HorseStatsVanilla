@@ -124,8 +124,8 @@ publishMods {
 	changelog = providers.environmentVariable("CHANGELOG").filter { !it.isBlank() }.orElse("See https://github.com/d4rkm0nkey/HorseStatsVanilla/releases")
 	type = providers.environmentVariable("RELEASE_TYPE").filter { !it.isBlank() }.map { me.modmuss50.mpp.ReleaseType.of(it) }.orElse(STABLE)
 	modLoaders.addAll("fabric", "quilt")
-	dryRun = providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null \
-		|| providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+	dryRun = providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("").isBlank() \
+		|| providers.environmentVariable("MODRINTH_TOKEN").getOrElse("").isBlank()
 
 	curseforge {
 		projectId = project.curseforge_id
