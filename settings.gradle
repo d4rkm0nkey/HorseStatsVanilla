@@ -8,3 +8,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+rootProject.name = 'HorseStatsVanilla'
+includeBuild('build-logic')
+include('common')
+include('fabric')
+include('neoforge')

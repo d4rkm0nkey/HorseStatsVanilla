@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "CC0-1.0"
+issueTrackerURL = "https://github.com/d4rkm0nkey/HorseStatsVanilla/issues"
+
+[[mods]]
+modId = "horsestatsvanilla"
+version = "${version}"
+displayName = "Horse Stats Vanilla"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/horsestatsvanilla"
+logoFile = "assets/horsestatsvanilla/icon.png"
+authors = "lumpyMonkey"
+description = '''Shows horse stats in the horse inventory.'''
+# Client-only mod: do not require it on servers
+displayTest = "IGNORE_ALL_VERSION"
+
+[[mixins]]
+config = "horsestatsvanilla.client.mixins.json"
+
+[[dependencies.horsestatsvanilla]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_range}"
+ordering = "NONE"
+side = "CLIENT"
