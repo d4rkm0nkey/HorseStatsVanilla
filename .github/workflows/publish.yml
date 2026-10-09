@@ -26,6 +26,19 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     steps:
+      - name: check tokens
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          missing=0
+          for name in CURSEFORGE_TOKEN MODRINTH_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository secret $name is missing or empty (Settings > Secrets and variables > Actions > Repository secrets)"
+              missing=1
+            fi
+          done
+          exit $missing
       - name: checkout repository
         uses: actions/checkout@v7
       - name: validate gradle wrapper
