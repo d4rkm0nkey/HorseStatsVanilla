@@ -57,10 +57,10 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	api("com.terraformersmc:modmenu:18.0.2") { transitive = false }
+	api("com.terraformersmc:modmenu:20.0.3") { transitive = false }
 	implementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
 	localRuntime fileTree(libguiNested) { include "*.jar" }
-	api include ("me.shedaniel.cloth:cloth-config-fabric:26.1.154")
+	api include ("me.shedaniel.cloth:cloth-config-fabric:26.2.155")
 }
 
 processResources {

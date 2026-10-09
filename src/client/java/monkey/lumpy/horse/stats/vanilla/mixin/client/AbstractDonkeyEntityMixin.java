@@ -60,7 +60,7 @@ public abstract class AbstractDonkeyEntityMixin extends AbstractHorse {
             int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
             int strengthValue = new BigDecimal(strength.replace(',', '.')).intValue();
 
-            Minecraft.getInstance().setScreen(
+            Minecraft.getInstance().gui.setScreen(
                 new ToolTipGui(new TooltipDonkey(speedValue, jumpValue, healthValue, strengthValue))
             );
         }
