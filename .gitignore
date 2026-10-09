@@ -29,3 +29,5 @@ bin/
 run/
 build/libs/horse-stats-vanilla-4.1.7.jar
 logs
+# neoforge
+runs/

@@ -1,0 +1,18 @@
+// Loader-independent code. It is compiled into the fabric and neoforge jars;
+// this project only exists to compile it against vanilla Minecraft (catching
+// accidental loader API use) and for IDE support.
+plugins {
+	id 'horsestats.common'
+	id 'net.neoforged.moddev'
+}
+
+neoForge {
+	neoFormVersion = neoform_version
+}
+
+dependencies {
+	// Both loaders ship Mixin
+	compileOnly("net.fabricmc:sponge-mixin:${mixin_version}")
+	compileOnly("me.shedaniel.cloth:cloth-config:${cloth_version}") { transitive = false }
+	compileOnly("me.shedaniel.cloth:basic-math:${basic_math_version}")
+}

@@ -1,0 +1,22 @@
+// Settings shared by the common, fabric and neoforge projects
+plugins {
+	id 'java-library'
+}
+
+version = "${mod_version}+${minecraft_version}"
+group = maven_group
+
+repositories {
+	maven { url = "https://maven.shedaniel.me/" }
+	maven { url = "https://maven.terraformersmc.com/releases/" }
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.toVersion(java_version)
+	targetCompatibility = JavaVersion.toVersion(java_version)
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = java_version as int
+}

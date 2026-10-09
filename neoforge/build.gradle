@@ -1,0 +1,27 @@
+plugins {
+	id 'horsestats.loader'
+	id 'net.neoforged.moddev'
+}
+
+neoForge {
+	version = neoforge_version
+	runs {
+		client {
+			client()
+		}
+	}
+	mods {
+		"horsestatsvanilla" {
+			sourceSet sourceSets.main
+		}
+	}
+}
+
+dependencies {
+	implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
+	jarJar("me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}")
+}
+
+publishMods {
+	modLoaders.add("neoforge")
+}

@@ -62,8 +62,12 @@ jobs:
         run: ./gradlew build
       - name: verify jar contents
         run: |
-          jar=$(ls build/libs/*.jar | grep -v -- '-sources.jar' | head -1)
-          unzip -l "$jar" | grep -q 'fabric.mod.json' || { echo "::error::$jar contains no fabric.mod.json"; exit 1; }
+          check() {
+            jar=$(ls $1/build/libs/*.jar | grep -v -- '-sources.jar' | head -1)
+            unzip -l "$jar" | grep -q "$2" || { echo "::error::$jar contains no $2"; exit 1; }
+          }
+          check fabric fabric.mod.json
+          check neoforge META-INF/neoforge.mods.toml
       - name: publish
         run: ./gradlew publishMods
         env:
@@ -75,4 +79,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Artifacts
-          path: build/libs/
+          path: |
+            fabric/build/libs/
+            neoforge/build/libs/
