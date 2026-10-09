@@ -24,4 +24,8 @@ dependencies {
 
 publishMods {
 	modLoaders.add("neoforge")
+	// A mod built against a NeoForge beta is not published as a stable release
+	if (neoforge_version.contains("beta")) {
+		type = BETA
+	}
 }
