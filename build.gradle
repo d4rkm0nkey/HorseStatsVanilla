@@ -58,10 +58,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modApi("com.terraformersmc:modmenu:11.0.5") { transitive = false }
+	modApi("com.terraformersmc:modmenu:13.0.4") { transitive = false }
 	modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
 	modLocalRuntime fileTree(libguiNested) { include "*.jar" }
-	modApi include ("me.shedaniel.cloth:cloth-config-fabric:15.0.140")
+	modApi include ("me.shedaniel.cloth:cloth-config-fabric:17.0.144")
 }
 
 processResources {

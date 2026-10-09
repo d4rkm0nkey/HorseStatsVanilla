@@ -52,10 +52,10 @@ public abstract class AbstractDonkeyEntityMixin extends AbstractHorseEntity {
         if (config.showValue() && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
             // Show tooltip
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpStrength = df.format( Converter.jumpStrengthToJumpHeight(this.getAttributeValue(EntityAttributes.GENERIC_JUMP_STRENGTH)) );
+            String jumpStrength = df.format( Converter.jumpStrengthToJumpHeight(this.getAttributeValue(EntityAttributes.JUMP_STRENGTH)) );
             String maxHealth = df.format(this.getMaxHealth());
             String strength = df.format(3L * this.getInventoryColumns());
-            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
+            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.MOVEMENT_SPEED)));
             
             double jumpValue = new BigDecimal(jumpStrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();

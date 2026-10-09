@@ -33,6 +33,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         super(handler, inventory, title);
     }
 
+    @Override
     protected void drawForeground(DrawContext drawContext, int mouseX, int mouseY) {
         super.drawForeground(drawContext, mouseX, mouseY);
         if(config == null) {
@@ -41,9 +42,9 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
         if (config.showValue()) {
             boolean hasChest = AbstractDonkeyEntity.class.isAssignableFrom(this.entity.getClass()) && ((AbstractDonkeyEntity) this.entity).hasChest();
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpStrength = df.format(Converter.jumpStrengthToJumpHeight(this.entity.getAttributeValue(EntityAttributes.GENERIC_JUMP_STRENGTH)));
+            String jumpStrength = df.format(Converter.jumpStrengthToJumpHeight(this.entity.getAttributeValue(EntityAttributes.JUMP_STRENGTH)));
             String maxHealth = df.format(this.entity.getMaxHealth());
-            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.entity.getAttributes().getValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
+            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.entity.getAttributes().getValue(EntityAttributes.MOVEMENT_SPEED)));
 
             // Coloring
             Color jumpColor = config.getNeutralColor();
