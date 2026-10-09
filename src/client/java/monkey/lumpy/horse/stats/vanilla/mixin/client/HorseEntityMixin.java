@@ -35,6 +35,12 @@ public abstract class HorseEntityMixin extends AbstractHorseEntity {
 
     @Inject(at = @At("HEAD"), method = "interactMob")
     public ActionResult interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> ret) {
+        // In singleplayer interactMob also runs on the integrated server thread,
+        // where opening a screen crashes the client
+        if (!this.getWorld().isClient()) {
+            return ret.getReturnValue();
+        }
+
         if(config == null) {
             config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         }
