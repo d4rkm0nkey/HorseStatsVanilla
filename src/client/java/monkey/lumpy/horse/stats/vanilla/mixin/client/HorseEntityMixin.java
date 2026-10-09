@@ -13,31 +13,31 @@ import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import monkey.lumpy.horse.stats.vanilla.gui.Tooltip;
 import monkey.lumpy.horse.stats.vanilla.util.Converter;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.Horse;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
-@Mixin(HorseEntity.class)
-public abstract class HorseEntityMixin extends AbstractHorseEntity {
+@Mixin(Horse.class)
+public abstract class HorseEntityMixin extends AbstractHorse {
 
     private ModConfig config;
 
-    protected HorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
+    protected HorseEntityMixin(EntityType<? extends AbstractHorse> entityType, Level world) {
         super(entityType, world);
     }
 
 
-    @Inject(at = @At("HEAD"), method = "interactMob")
-    public ActionResult interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> ret) {
+    @Inject(at = @At("HEAD"), method = "mobInteract")
+    public InteractionResult interactMob(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> ret) {
         // In singleplayer interactMob also runs on the integrated server thread,
         // where opening a screen crashes the client
-        if (!this.getEntityWorld().isClient()) {
+        if (!this.level().isClientSide()) {
             return ret.getReturnValue();
         }
 
@@ -45,18 +45,18 @@ public abstract class HorseEntityMixin extends AbstractHorseEntity {
             config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         }
         
-        if (config.showValue() && !this.isTame() && player.shouldCancelInteraction() && (config == null || config.isTooltipEnabled())) {
+        if (config.showValue() && !this.isTamed() && player.isSecondaryUseActive() && (config == null || config.isTooltipEnabled())) {
             // Show tooltip
             DecimalFormat df = new DecimalFormat("#.#");
-            String jumpStrength = df.format( Converter.jumpStrengthToJumpHeight(this.getAttributeValue(EntityAttributes.JUMP_STRENGTH)) );
+            String jumpStrength = df.format( Converter.jumpStrengthToJumpHeight(this.getAttributeValue(Attributes.JUMP_STRENGTH)) );
             String maxHealth = df.format(this.getMaxHealth());
-            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(EntityAttributes.MOVEMENT_SPEED)));
+            String speed = df.format(Converter.genericSpeedToBlocPerSec(this.getAttributes().getValue(Attributes.MOVEMENT_SPEED)));
             
             double jumpValue = new BigDecimal(jumpStrength.replace(',', '.')).doubleValue();
             double speedValue = new BigDecimal(speed.replace(',', '.')).doubleValue();
             int healthValue = new BigDecimal(maxHealth.replace(',', '.')).intValue();
 
-            MinecraftClient.getInstance().setScreen(
+            Minecraft.getInstance().setScreen(
                 new ToolTipGui(new Tooltip(speedValue, jumpValue, healthValue))
             );
         }

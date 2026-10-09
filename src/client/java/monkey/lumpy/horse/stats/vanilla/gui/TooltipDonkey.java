@@ -8,7 +8,7 @@ import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.math.Color;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class TooltipDonkey extends LightweightGuiDescription {
     private ModConfig config;
@@ -43,32 +43,32 @@ public class TooltipDonkey extends LightweightGuiDescription {
 
         WBox speedBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel speedSymbol = new WLabel(Text.literal("➟"), speedColor.hashCode());
-        WLabel speedLabel = new WLabel(Text.literal(String.valueOf(speed)), speedColor.hashCode());
+        WLabel speedSymbol = new WLabel(Component.literal("➟"), speedColor.hashCode());
+        WLabel speedLabel = new WLabel(Component.literal(String.valueOf(speed)), speedColor.hashCode());
 
         speedBox.add(speedSymbol);
         speedBox.add(speedLabel);
 
         WBox jumpBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel jumpSymbol = new WLabel(Text.literal("⇮"), jumpColor.hashCode());
-        WLabel jumpLabel = new WLabel(Text.literal(String.valueOf(jump)), jumpColor.hashCode());
+        WLabel jumpSymbol = new WLabel(Component.literal("⇮"), jumpColor.hashCode());
+        WLabel jumpLabel = new WLabel(Component.literal(String.valueOf(jump)), jumpColor.hashCode());
 
         jumpBox.add(jumpSymbol);
         jumpBox.add(jumpLabel);
 
         WBox healthBox = new WBox(Axis.HORIZONTAL);
         
-        WLabel healthSymbol = new WLabel(Text.literal("♥"), hearthColor.hashCode());
-        WLabel healthLabel = new WLabel(Text.literal(String.valueOf(health)), hearthColor.hashCode());
+        WLabel healthSymbol = new WLabel(Component.literal("♥"), hearthColor.hashCode());
+        WLabel healthLabel = new WLabel(Component.literal(String.valueOf(health)), hearthColor.hashCode());
 
         healthBox.add(healthSymbol);
         healthBox.add(healthLabel);
 
         WBox strengthBox = new WBox(Axis.HORIZONTAL);
 
-        WLabel strengthSymbol = new WLabel(Text.literal("▦"), strengthColor.hashCode());
-        WLabel strengthLabel = new WLabel(Text.literal(String.valueOf(strength)), strengthColor.hashCode());
+        WLabel strengthSymbol = new WLabel(Component.literal("▦"), strengthColor.hashCode());
+        WLabel strengthLabel = new WLabel(Component.literal(String.valueOf(strength)), strengthColor.hashCode());
 
         strengthBox.add(strengthSymbol);
         strengthBox.add(strengthLabel);

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.13.6'
+	id 'net.fabricmc.fabric-loom' version '1.18.3'
 	id 'maven-publish'
 	id 'me.modmuss50.mod-publish-plugin' version '2.2.1'
 }
@@ -54,14 +54,13 @@ loom {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modApi("com.terraformersmc:modmenu:17.0.1") { transitive = false }
-	modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
-	modLocalRuntime fileTree(libguiNested) { include "*.jar" }
-	modApi include ("me.shedaniel.cloth:cloth-config-fabric:21.11.153")
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	api("com.terraformersmc:modmenu:18.0.2") { transitive = false }
+	implementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
+	localRuntime fileTree(libguiNested) { include "*.jar" }
+	api include ("me.shedaniel.cloth:cloth-config-fabric:26.1.154")
 }
 
 processResources {
@@ -92,7 +91,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.archives_base_name}"}
 	}
 }
 
@@ -118,7 +117,7 @@ publishing {
 def publishVersions = project.publish_minecraft_versions.split(",").collect { it.trim() }
 
 publishMods {
-	file = remapJar.archiveFile
+	file = jar.archiveFile
 	displayName = "${project.mod_version} for ${publishVersions.first()}" + (publishVersions.size() > 1 ? "-${publishVersions.last()}" : "")
 	version = project.version
 	changelog = providers.environmentVariable("CHANGELOG").filter { !it.isBlank() }.orElse("See https://github.com/d4rkm0nkey/HorseStatsVanilla/releases")
