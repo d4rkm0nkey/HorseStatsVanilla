@@ -42,8 +42,14 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: build and publish
-        run: ./gradlew build publishMods
+      - name: build
+        run: ./gradlew build
+      - name: verify jar contents
+        run: |
+          jar=$(ls build/libs/*.jar | grep -v -- '-sources.jar' | head -1)
+          unzip -l "$jar" | grep -q 'fabric.mod.json' || { echo "::error::$jar contains no fabric.mod.json"; exit 1; }
+      - name: publish
+        run: ./gradlew publishMods
         env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
