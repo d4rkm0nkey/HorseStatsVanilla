@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11.8'
+	id 'fabric-loom' version '1.13.6'
 	id 'maven-publish'
 	id 'me.modmuss50.mod-publish-plugin' version '2.2.1'
 }
@@ -58,10 +58,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modApi("com.terraformersmc:modmenu:16.0.1") { transitive = false }
+	modApi("com.terraformersmc:modmenu:17.0.1") { transitive = false }
 	modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
 	modLocalRuntime fileTree(libguiNested) { include "*.jar" }
-	modApi include ("me.shedaniel.cloth:cloth-config-fabric:20.0.149")
+	modApi include ("me.shedaniel.cloth:cloth-config-fabric:21.11.153")
 }
 
 processResources {
