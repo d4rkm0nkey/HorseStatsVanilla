@@ -26,6 +26,20 @@ repositories {
 	maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
+// LibGui from GitHub has no POM, so its nested dependencies (Jankson, LibNinePatch)
+// are missing from the dev runtime. Unpack them from the LibGui jar for runClient.
+def libguiJar = configurations.detachedConfiguration(
+	dependencies.create("io.github.cottonmc:LibGui:${project.libgui_version}")).singleFile
+def libguiNested = file(".gradle/libgui-nested/${project.libgui_version}")
+copy {
+	from(zipTree(libguiJar)) {
+		include "META-INF/jars/*.jar"
+		eachFile { path = name }
+	}
+	includeEmptyDirs = false
+	into libguiNested
+}
+
 loom {
     splitEnvironmentSourceSets()
 
@@ -46,6 +60,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modApi("com.terraformersmc:modmenu:9.2.0") { transitive = false }
 	modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
+	modLocalRuntime fileTree(libguiNested) { include "*.jar" }
 	modApi include ("me.shedaniel.cloth:cloth-config-fabric:13.0.138")
 }
 
