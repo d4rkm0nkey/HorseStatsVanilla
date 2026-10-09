@@ -41,7 +41,7 @@ public abstract class AbstractDonkeyEntityMixin extends AbstractHorseEntity {
     public ActionResult interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> ret) {
         // In singleplayer interactMob also runs on the integrated server thread,
         // where opening a screen crashes the client
-        if (!this.getWorld().isClient()) {
+        if (!this.getEntityWorld().isClient()) {
             return ret.getReturnValue();
         }
 
