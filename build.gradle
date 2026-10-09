@@ -12,32 +12,8 @@ base {
 }
 
 repositories {
-    // The CottonMC maven (server.bbkr.space) is offline, so LibGui is fetched from its GitHub releases.
-    ivy {
-        name = "LibGui GitHub Releases"
-        url = "https://github.com/CottonMC/LibGui/releases/download/"
-        patternLayout {
-            artifact "${project.libgui_tag}/[module]-[revision].[ext]"
-        }
-        metadataSources { artifact() }
-        content { includeModule("io.github.cottonmc", "LibGui") }
-    }
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
-}
-
-// LibGui from GitHub has no POM, so its nested dependencies (Jankson, LibNinePatch)
-// are missing from the dev runtime. Unpack them from the LibGui jar for runClient.
-def libguiJar = configurations.detachedConfiguration(
-	dependencies.create("io.github.cottonmc:LibGui:${project.libgui_version}")).singleFile
-def libguiNested = file(".gradle/libgui-nested/${project.libgui_version}")
-copy {
-	from(zipTree(libguiJar)) {
-		include "META-INF/jars/*.jar"
-		eachFile { path = name }
-	}
-	includeEmptyDirs = false
-	into libguiNested
 }
 
 loom {
@@ -58,8 +34,6 @@ dependencies {
 
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	api("com.terraformersmc:modmenu:18.0.2") { transitive = false }
-	implementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
-	localRuntime fileTree(libguiNested) { include "*.jar" }
 	api include ("me.shedaniel.cloth:cloth-config-fabric:26.1.154")
 }
 
