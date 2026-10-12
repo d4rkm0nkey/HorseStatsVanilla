@@ -1,4 +1,5 @@
-# HorseStatsVanilla
+# <img src="common/src/main/resources/assets/horsestatsvanilla/icon.png" width="30"/> HorseStatsVanilla
+
 A Minecraft mod that displays the statistics (health, speed, jumpheight) of horses in their inventory.
 
 ![build workflow](https://github.com/d4rkm0nkey/HorseStatsVanilla/actions/workflows/build.yml/badge.svg)
