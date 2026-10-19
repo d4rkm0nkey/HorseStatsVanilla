@@ -5,7 +5,7 @@
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "Maximal- und Minimalwerte anzeigen",
 	"text.autoconfig.horsestatsvanilla.option.valueUp": "Statistiken sind immer an der Spitze",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Tooltip aktivieren",
-    "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Schlechte Werte werden rot und gute Werte grün dargestellt. [#ff+HEX]",
+    "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Schlechte Werte werden rot und gute Werte grün dargestellt.",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin.@Tooltip": "Maximal- und Minimalwerte anzeigen.",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip.@Tooltip": "Tooltip anzeigen bei Shift + Rechtsklick auf ein Pferd.",
     "text.autoconfig.horsestatsvanilla.category.default": "Allgemein",
@@ -28,5 +28,11 @@
     "text.autoconfig.horsestatsvanilla.option.badHorseJumpValue.@Tooltip": "Werte unter diesem Wert werden als schlecht markiert.",
     "text.autoconfig.horsestatsvanilla.option.badHorseSpeedValue.@Tooltip": "Werte unter diesem Wert werden als schlecht markiert.",
     "text.autoconfig.horsestatsvanilla.option.badHorseHeartsValue.@Tooltip": "Werte unter diesem Wert werden als schlecht markiert.",
-    "text.autoconfig.horsestatsvanilla.option.badStrengthValue.@Tooltip": "Werte unter diesem Wert werden als schlecht markiert."
+    "text.autoconfig.horsestatsvanilla.option.badStrengthValue.@Tooltip": "Werte unter diesem Wert werden als schlecht markiert.",
+    "horsestatsvanilla.stat.speed": "Tempo: %s Blöcke/s",
+    "horsestatsvanilla.stat.jump": "Sprunghöhe: %s Blöcke",
+    "horsestatsvanilla.stat.health": "Leben: %s (%s Herzen)",
+    "horsestatsvanilla.stat.strength": "Inventar: %s Plätze",
+    "horsestatsvanilla.stat.range": "Vanilla-Bereich: %s",
+    "horsestatsvanilla.stat.limits": "Gut über %s, schlecht unter %s"
 }

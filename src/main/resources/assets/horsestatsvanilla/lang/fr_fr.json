@@ -1,7 +1,7 @@
 {
   "text.autoconfig.horsestatsvanilla.title": "Horse Stats Vanilla",
   "text.autoconfig.horsestatsvanilla.option.showValue": "Activer le mod",
-  "text.autoconfig.horsestatsvanilla.option.useColors": "Utiliser des couleurs [#ff+HEX]",
+  "text.autoconfig.horsestatsvanilla.option.useColors": "Utiliser des couleurs",
   "text.autoconfig.horsestatsvanilla.option.showMaxMin": "Afficher les valeurs maximales et minimales",
   "text.autoconfig.horsestatsvanilla.option.valueUp": "Les valeurs sont toujours au premier plan",
   "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Activer l'infobulle",
