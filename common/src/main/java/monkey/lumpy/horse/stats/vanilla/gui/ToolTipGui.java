@@ -1,5 +1,7 @@
 package monkey.lumpy.horse.stats.vanilla.gui;
 
+import java.util.Optional;
+
 import monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import net.minecraft.client.Minecraft;
@@ -58,6 +60,9 @@ public class ToolTipGui extends Screen {
         for (StatLines.Line line : stats.getLines()) {
             graphics.text(font, line.stat().symbol(), x + PADDING, lineY, line.color(), false);
             graphics.text(font, line.value(), x + PADDING + SYMBOL_WIDTH, lineY, line.color(), false);
+            if (mouseX >= x && mouseX < x + panelWidth && mouseY >= lineY - 1 && mouseY < lineY + LINE_HEIGHT - 1) {
+                graphics.setTooltipForNextFrame(font, stats.getTooltip(line.stat()), Optional.empty(), mouseX, mouseY);
+            }
             lineY += LINE_HEIGHT;
         }
     }

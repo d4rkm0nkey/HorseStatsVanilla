@@ -2,11 +2,15 @@ package monkey.lumpy.horse.stats.vanilla.gui;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.util.Converter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.equine.AbstractChestedHorse;
@@ -18,12 +22,14 @@ import net.minecraft.world.entity.animal.equine.SkeletonHorse;
 /** The stats of a mount as rows (symbol, value, color, vanilla range), shared by the inventory and {@link ToolTipGui}. */
 public final class StatLines {
     public enum Stat {
-        SPEED("➟"), JUMP("⇮"), HEALTH("♥"), STRENGTH("▦");
+        SPEED("➟", "speed"), JUMP("⇮", "jump"), HEALTH("♥", "health"), STRENGTH("▦", "strength");
 
         private final String symbol;
+        private final String key;
 
-        Stat(String symbol) {
+        Stat(String symbol, String key) {
             this.symbol = symbol;
+            this.key = "horsestatsvanilla.stat." + key;
         }
 
         public String symbol() {
@@ -42,6 +48,7 @@ public final class StatLines {
 
     private final ModConfig config = HorseStatsVanilla.config();
     private final List<Line> lines = new ArrayList<>();
+    private final Map<Stat, List<Component>> tooltips = new EnumMap<>(Stat.class);
 
     private StatLines() {}
 
@@ -78,10 +85,28 @@ public final class StatLines {
         return lines;
     }
 
+    /** What a stat means, shown on hover: the value with its unit, the vanilla range and the color limits. */
+    public List<Component> getTooltip(Stat stat) {
+        return tooltips.getOrDefault(stat, List.of());
+    }
+
     private void add(Stat stat, double value, double good, double bad, String range) {
         // Rate the shown (rounded) value, so a displayed 4 never counts as above a limit of 4
         double shown = Math.round(value * 10) / 10.0;
         lines.add(new Line(stat, format(shown), rate(shown, good, bad), range));
+
+        List<Component> tooltip = new ArrayList<>();
+        // Max health counts half hearts
+        tooltip.add(stat == Stat.HEALTH
+            ? Component.translatable(stat.key, format(shown), format(shown / 2))
+            : Component.translatable(stat.key, format(shown)));
+        if (range != null) {
+            tooltip.add(Component.translatable("horsestatsvanilla.stat.range", range).withStyle(ChatFormatting.GRAY));
+        }
+        if (config.useColors()) {
+            tooltip.add(Component.translatable("horsestatsvanilla.stat.limits", format(good), format(bad)).withStyle(ChatFormatting.GRAY));
+        }
+        tooltips.put(stat, tooltip);
     }
 
     private int rate(double value, double good, double bad) {

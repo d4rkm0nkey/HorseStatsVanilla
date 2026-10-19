@@ -29,6 +29,8 @@ public class ScreenTest implements FabricClientGameTest {
             Mounts.config("valueUp", true);
             inventory(context, world, "horse_values_up_max_min", horse);
             Mounts.config("valueUp", false);
+            // The speed value, in window coordinates of the 176 x 166 inventory
+            inventory(context, world, "horse_hover_speed", horse, 96, 29);
 
             int donkey = Mounts.summon(context, world, "donkey", Mounts.pos(1), Mounts.stats(0.175, 0.5, 26) + ",Tame:1b,ChestedHorse:1b");
             inventory(context, world, "donkey_chest", donkey);
@@ -51,11 +53,19 @@ public class ScreenTest implements FabricClientGameTest {
             BlockPos wildLlama = Mounts.pos(6);
             Mounts.summon(context, world, "llama", wildLlama, Mounts.stats(0.175, 0.5, 20) + ",Strength:4");
             panel(context, world, "panel_llama", wildLlama);
+            BlockPos hoverHorse = Mounts.pos(7);
+            Mounts.summon(context, world, "horse", hoverHorse, Mounts.stats(0.2, 0.7, 23));
+            panel(context, world, "panel_hover_health", hoverHorse, true);
         }
     }
 
     /** Opens the inventory of a tamed mount, as on shift + right click, and takes a screenshot. */
     private static void inventory(ClientGameTestContext context, TestSingleplayerContext world, String name, int id) {
+        inventory(context, world, name, id, -1, -1);
+    }
+
+    /** Same, with the mouse at ({@code x}, {@code y}) in the inventory window, or off it for negative values. */
+    private static void inventory(ClientGameTestContext context, TestSingleplayerContext world, String name, int id, int x, int y) {
         world.getServer().runOnServer(server -> {
             ServerPlayer player = server.getPlayerList().getPlayers().getFirst();
             AbstractHorse mount = (AbstractHorse) server.overworld().getEntity(id);
@@ -63,6 +73,11 @@ public class ScreenTest implements FabricClientGameTest {
             mount.openCustomInventoryScreen(player);
         });
         context.waitForScreen(HorseInventoryScreen.class);
+        if (x >= 0) {
+            hover(context, x, y, 176, 166);
+        } else {
+            context.getInput().setCursorPos(0, 0);
+        }
         context.waitTicks(5);
         context.takeScreenshot(name);
         context.setScreen(() -> null);
@@ -71,6 +86,11 @@ public class ScreenTest implements FabricClientGameTest {
 
     /** Shift + right clicks an untamed mount: the panel opens, and closes again with shift. */
     private static void panel(ClientGameTestContext context, TestSingleplayerContext world, String name, BlockPos mount) {
+        panel(context, world, name, mount, false);
+    }
+
+    /** Same, with the mouse on the health row of the panel ({@code hoverHealth}). */
+    private static void panel(ClientGameTestContext context, TestSingleplayerContext world, String name, BlockPos mount, boolean hoverHealth) {
         world.getServer().runOnServer(server -> server.getPlayerList().getPlayers().getFirst()
             .teleportTo(mount.getX() + 0.5, mount.getY(), mount.getZ() - 2.0));
         context.waitTicks(5);
@@ -80,10 +100,28 @@ public class ScreenTest implements FabricClientGameTest {
         context.waitTicks(2);
         context.getInput().pressKey(options -> options.keyUse);
         context.waitForScreen(ToolTipGui.class);
+        if (hoverHealth) {
+            // The middle of the third row: the panel is centered and 38 pixels high for three rows
+            hover(context, 0, 29, 0, 38);
+        }
         context.waitTicks(3);
         context.takeScreenshot(name);
         context.getInput().releaseKey(options -> options.keyShift);
         context.waitForScreen(null);
         context.waitTicks(2);
+    }
+
+    /**
+     * Moves the mouse to ({@code x}, {@code y}) in a window of the given size centered on the
+     * screen; width 0 means the screen's horizontal center.
+     */
+    private static void hover(ClientGameTestContext context, int x, int y, int width, int height) {
+        double[] cursor = context.computeOnClient(minecraft -> {
+            int scale = minecraft.getWindow().getGuiScale();
+            int left = width == 0 ? minecraft.getWindow().getGuiScaledWidth() / 2 : (minecraft.getWindow().getGuiScaledWidth() - width) / 2;
+            int top = (minecraft.getWindow().getGuiScaledHeight() - height) / 2;
+            return new double[] {(left + x) * scale, (top + y) * scale};
+        });
+        context.getInput().setCursorPos(cursor[0], cursor[1]);
     }
 }

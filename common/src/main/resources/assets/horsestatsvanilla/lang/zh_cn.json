@@ -1,7 +1,7 @@
 {
     "text.autoconfig.horsestatsvanilla.title": "Horse Stats Vanilla", 
 	"text.autoconfig.horsestatsvanilla.option.showValue": "启用模组",
-    "text.autoconfig.horsestatsvanilla.option.useColors": "使用颜色[#ff+HEX]",
+    "text.autoconfig.horsestatsvanilla.option.useColors": "使用颜色",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "显示最大值和最小值",
 	"text.autoconfig.horsestatsvanilla.option.valueUp": "统计数据置于顶层",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip": "启用提示文本",

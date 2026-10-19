@@ -1,7 +1,7 @@
 {
     "text.autoconfig.horsestatsvanilla.title": "Horse Stats Vanilla", 
 	"text.autoconfig.horsestatsvanilla.option.showValue": "Enable mod",
-    "text.autoconfig.horsestatsvanilla.option.useColors": "Use colors [#ff+HEX]",
+    "text.autoconfig.horsestatsvanilla.option.useColors": "Use colors",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "Show max and min",
 	"text.autoconfig.horsestatsvanilla.option.valueUp": "Values are always on top",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Enable Tooltip",
@@ -28,5 +28,11 @@
     "text.autoconfig.horsestatsvanilla.option.badHorseJumpValue.@Tooltip": "Anything below this value will be marked as bad.",
     "text.autoconfig.horsestatsvanilla.option.badHorseSpeedValue.@Tooltip": "Anything below this value will be marked as bad.",
     "text.autoconfig.horsestatsvanilla.option.badHorseHeartsValue.@Tooltip": "Anything below this value will be marked as bad.",
-    "text.autoconfig.horsestatsvanilla.option.badStrengthValue.@Tooltip": "Anything below this value will be marked as bad."
+    "text.autoconfig.horsestatsvanilla.option.badStrengthValue.@Tooltip": "Anything below this value will be marked as bad.",
+    "horsestatsvanilla.stat.speed": "Speed: %s blocks/s",
+    "horsestatsvanilla.stat.jump": "Jump height: %s blocks",
+    "horsestatsvanilla.stat.health": "Health: %s (%s hearts)",
+    "horsestatsvanilla.stat.strength": "Inventory: %s slots",
+    "horsestatsvanilla.stat.range": "Vanilla range: %s",
+    "horsestatsvanilla.stat.limits": "Good above %s, bad below %s"
 }

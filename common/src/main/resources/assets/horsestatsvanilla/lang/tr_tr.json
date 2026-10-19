@@ -5,7 +5,7 @@
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "En çok ve en azı göster",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Açıklamayı etkinleştir",
 	"text.autoconfig.horsestatsvanilla.option.valueUp": "İstatistikler her zaman zirvede",
-    "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Zayıf değerleri kırmızı, güçlü değerleri yeşille göster. [#ff+HEX]",
+    "text.autoconfig.horsestatsvanilla.option.useColors.@Tooltip": "Zayıf değerleri kırmızı, güçlü değerleri yeşille göster.",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin.@Tooltip": "En çok ve en az değerleri göster.",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip.@Tooltip": "Eğilirken bir ata sağ tıklayıp bir açıklama penceresi açın.",
     "text.autoconfig.horsestatsvanilla.category.default": "Genel",
