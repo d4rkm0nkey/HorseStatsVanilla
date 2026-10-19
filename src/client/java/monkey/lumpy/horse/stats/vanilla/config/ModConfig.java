@@ -18,11 +18,11 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     private boolean useColors = true;
 
-    @ConfigEntry.ColorPicker(allowAlpha = true)
+    @ConfigEntry.ColorPicker(allowAlpha = false)
     private int goodColor = 0xff00b400;
-    @ConfigEntry.ColorPicker(allowAlpha = true)
+    @ConfigEntry.ColorPicker(allowAlpha = false)
     private int neutralColor = 0xff464646;
-    @ConfigEntry.ColorPicker(allowAlpha = true)
+    @ConfigEntry.ColorPicker(allowAlpha = false)
     private int badColor = 0xffff0000;
 
     @Category("coloring")
