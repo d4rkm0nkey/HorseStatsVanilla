@@ -25,6 +25,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - name: check tokens
         env:
@@ -64,6 +66,11 @@ jobs:
         run: |
           jar=$(ls build/libs/*.jar | grep -v -- '-sources.jar' | head -1)
           unzip -l "$jar" | grep -q 'fabric.mod.json' || { echo "::error::$jar contains no fabric.mod.json"; exit 1; }
+      - name: attach jars to the github release
+        if: github.event_name == 'release'
+        run: gh release upload "${{ github.event.release.tag_name }}" $(ls build/libs/*.jar fabric/build/libs/*.jar neoforge/build/libs/*.jar 2>/dev/null | grep -vE -- '-(sources|javadoc)\.jar$') --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: publish
         run: ./gradlew publishMods
         env:
