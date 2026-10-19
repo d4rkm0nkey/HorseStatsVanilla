@@ -20,4 +20,8 @@ public final class HorseStatsVanilla {
             MixinEnvironment.getCurrentEnvironment().audit();
         }
     }
+
+    public static ModConfig config() {
+        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+    }
 }
