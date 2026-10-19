@@ -37,6 +37,16 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
+      - name: client game tests
+        if: ${{ runner.os == 'Linux' }}
+        # Starts the game in a virtual display, see fabric/build.gradle
+        run: xvfb-run -a ./gradlew :fabric:runClientGameTest
+      - name: capture game test screenshots
+        if: ${{ always() && runner.os == 'Linux' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: Screenshots
+          path: fabric/build/run/clientGameTest/screenshots/
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' }} # Only upload artifacts built on one OS
         uses: actions/upload-artifact@v7
