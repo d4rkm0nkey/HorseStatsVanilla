@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "horsestatsvanilla_test",
+  "version": "1.0.0",
+  "name": "Horse Stats Vanilla Game Tests",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": [
+      "monkey.lumpy.horse.stats.vanilla.gametest.StatLinesTest",
+      "monkey.lumpy.horse.stats.vanilla.gametest.ScreenTest"
+    ]
+  },
+  "depends": {
+    "horsestatsvanilla": "*"
+  }
+}

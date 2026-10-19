@@ -11,6 +11,18 @@ loom {
 	}
 }
 
+// Client game tests: ./gradlew :fabric:runClientGameTest (needs a display, xvfb-run in CI).
+// The screenshots land in fabric/build/run/clientGameTest/screenshots.
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "horsestatsvanilla_test"
+		eula = true
+		// The mod is client-only, a dedicated test server would not load it
+		enableGameTests = false
+	}
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${loader_version}"
