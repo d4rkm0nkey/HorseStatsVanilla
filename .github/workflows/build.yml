@@ -37,6 +37,10 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
+      - name: install software vulkan
+        if: ${{ runner.os == 'Linux' }}
+        # 26.3 finds no OpenGL visual on xvfb; Mesa's lavapipe gives it a Vulkan device instead
+        run: sudo apt-get update -q && sudo apt-get install -yq mesa-vulkan-drivers libvulkan1
       - name: client game tests
         if: ${{ runner.os == 'Linux' }}
         # The game hangs instead of failing when it finds no graphics backend
