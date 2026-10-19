@@ -39,8 +39,11 @@ jobs:
         run: ./gradlew build
       - name: client game tests
         if: ${{ runner.os == 'Linux' }}
-        # Starts the game in a virtual display, see fabric/build.gradle
-        run: xvfb-run -a ./gradlew :fabric:runClientGameTest
+        # The game hangs instead of failing when it finds no graphics backend
+        timeout-minutes: 20
+        # Starts the game in a virtual display, see fabric/build.gradle. It needs
+        # 24 bit colors: xvfb-run's default of 8 bit offers no OpenGL visual
+        run: xvfb-run -a -s "-screen 0 1920x1080x24" ./gradlew :fabric:runClientGameTest
       - name: capture game test screenshots
         if: ${{ always() && runner.os == 'Linux' }}
         uses: actions/upload-artifact@v7
