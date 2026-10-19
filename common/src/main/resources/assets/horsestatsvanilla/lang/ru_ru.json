@@ -1,7 +1,7 @@
 {
     "text.autoconfig.horsestatsvanilla.title": "Horse Stats Vanilla", 
 	"text.autoconfig.horsestatsvanilla.option.showValue": "Включить мод",
-    "text.autoconfig.horsestatsvanilla.option.useColors": "Использовать цвета [#ff+HEX]",
+    "text.autoconfig.horsestatsvanilla.option.useColors": "Использовать цвета",
     "text.autoconfig.horsestatsvanilla.option.showMaxMin": "Показывать максимум и миннимум",
 	"text.autoconfig.horsestatsvanilla.option.valueUp": "Значения всегда сверху",
     "text.autoconfig.horsestatsvanilla.option.enableTooltip": "Включить Tooltip",

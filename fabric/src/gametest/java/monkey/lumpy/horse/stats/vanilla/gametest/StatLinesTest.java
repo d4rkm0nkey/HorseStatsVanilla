@@ -14,6 +14,7 @@ import monkey.lumpy.horse.stats.vanilla.gui.StatLines.Line;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
+import net.minecraft.network.chat.Component;
 
 /**
  * What the mod shows for each kind of mount: values, colors and vanilla ranges, read from the
@@ -80,6 +81,16 @@ public class StatLinesTest implements FabricClientGameTest {
                 new Line(JUMP, "2.9", neutral, JUMP_RANGE),
                 new Line(HEALTH, "15", bad, null)));
 
+            // Hover tooltips: value with unit, vanilla range (if any) and the color limits
+            expectTooltip(context, "the best horse", bestHorse, SPEED,
+                "Speed: 14.2 blocks/s", "Vanilla range: 4.7-14.2", "Good above 11, bad below 7");
+            expectTooltip(context, "the worst horse", worstHorse, HEALTH,
+                "Health: 15 (7.5 hearts)", "Vanilla range: 15-30", "Good above 25, bad below 20");
+            expectTooltip(context, "a donkey", donkey, JUMP,
+                "Jump height: 1.6 blocks", "Good above 4, bad below 2.5");
+            expectTooltip(context, "a llama of strength 2", weakLlama, STRENGTH,
+                "Inventory: 6 slots", "Vanilla range: 3-15", "Good above 9, bad below 6");
+
             int camel = Mounts.summon(context, world, "camel", Mounts.pos(8), "");
             StatLines camelStats = context.computeOnClient(minecraft -> StatLines.of(Mounts.client(minecraft, camel)));
             if (camelStats != null) {
@@ -92,6 +103,8 @@ public class StatLinesTest implements FabricClientGameTest {
                     new Line(SPEED, "14.2", neutral, SPEED_RANGE),
                     new Line(JUMP, "5.3", neutral, JUMP_RANGE),
                     new Line(HEALTH, "30", neutral, HEALTH_RANGE)));
+                expectTooltip(context, "the best horse without colors", bestHorse, SPEED,
+                    "Speed: 14.2 blocks/s", "Vanilla range: 4.7-14.2");
             } finally {
                 Mounts.config("useColors", true);
             }
@@ -117,6 +130,14 @@ public class StatLinesTest implements FabricClientGameTest {
         List<Line> actual = lines(context, mount, id);
         if (!actual.contains(expected)) {
             throw new AssertionError("Wrong stats for " + mount + ": expected " + describe(List.of(expected)) + " in " + describe(actual));
+        }
+    }
+
+    private static void expectTooltip(ClientGameTestContext context, String mount, int id, StatLines.Stat stat, String... expected) {
+        List<String> actual = context.computeOnClient(minecraft -> StatLines.of(Mounts.client(minecraft, id)).getTooltip(stat).stream()
+            .map(Component::getString).toList());
+        if (!actual.equals(List.of(expected))) {
+            throw new AssertionError("Wrong " + stat + " tooltip for " + mount + ":\n  expected " + List.of(expected) + "\n  but got  " + actual);
         }
     }
 
