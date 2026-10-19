@@ -1,10 +1,14 @@
 package monkey.lumpy.horse.stats.vanilla.gui;
 
+import monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla;
+import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
 
 /** Small panel with the stats of an untamed horse, shown on shift + right click. */
 public class ToolTipGui extends Screen {
@@ -17,6 +21,23 @@ public class ToolTipGui extends Screen {
     public ToolTipGui(StatLines stats) {
         super(Component.empty());
         this.stats = stats;
+    }
+
+    /** Called when the player right clicks a mount; opens the panel on shift + right click on an untamed one. */
+    public static void openOnInteract(AbstractHorse mount, Player player) {
+        // In singleplayer mobInteract also runs on the integrated server thread,
+        // where opening a screen crashes the client
+        if (!mount.level().isClientSide() || mount.isTamed() || !player.isSecondaryUseActive()) {
+            return;
+        }
+        ModConfig config = HorseStatsVanilla.config();
+        if (!config.showValue() || !config.isTooltipEnabled()) {
+            return;
+        }
+        StatLines stats = StatLines.of(mount);
+        if (stats != null) {
+            Minecraft.getInstance().setScreen(new ToolTipGui(stats));
+        }
     }
 
     @Override
@@ -35,7 +56,7 @@ public class ToolTipGui extends Screen {
         drawPanel(graphics, x, y, panelWidth, panelHeight);
         int lineY = y + PADDING;
         for (StatLines.Line line : stats.getLines()) {
-            graphics.text(font, line.symbol(), x + PADDING, lineY, line.color(), false);
+            graphics.text(font, line.stat().symbol(), x + PADDING, lineY, line.color(), false);
             graphics.text(font, line.value(), x + PADDING + SYMBOL_WIDTH, lineY, line.color(), false);
             lineY += LINE_HEIGHT;
         }
