@@ -19,7 +19,7 @@ public class ScreenTest implements FabricClientGameTest {
     @Override
     public void runTest(ClientGameTestContext context) {
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
-            world.getClientLevel().waitForChunksRender();
+            world.getConnection().waitForChunksRender();
             world.getServer().runCommand("time set noon");
 
             int horse = Mounts.summon(context, world, "horse", Mounts.pos(0), Mounts.stats(0.3375, 0.7, 18) + ",Tame:1b");
