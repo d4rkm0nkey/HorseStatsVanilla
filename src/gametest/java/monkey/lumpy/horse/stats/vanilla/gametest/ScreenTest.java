@@ -2,6 +2,9 @@ package monkey.lumpy.horse.stats.vanilla.gametest;
 
 import java.util.Locale;
 
+import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
+import io.github.cottonmc.cotton.gui.widget.WPanel;
+import io.github.cottonmc.cotton.gui.widget.WWidget;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
@@ -31,6 +34,8 @@ public class ScreenTest implements FabricClientGameTest {
             Mounts.config("valueUp", true);
             inventory(context, world, "horse_values_up_max_min", horse);
             Mounts.config("valueUp", false);
+            // The speed value, in window coordinates of the 176 x 166 inventory
+            inventory(context, world, "horse_hover_speed", horse, 96, 29);
 
             int donkey = Mounts.summon(context, world, "donkey", Mounts.pos(1), Mounts.stats(0.175, 0.5, 26) + ",Tame:1b,ChestedHorse:1b");
             inventory(context, world, "donkey_chest", donkey);
@@ -53,11 +58,19 @@ public class ScreenTest implements FabricClientGameTest {
             BlockPos wildLlama = Mounts.pos(6);
             Mounts.summon(context, world, "llama", wildLlama, Mounts.stats(0.175, 0.5, 20) + ",Strength:4");
             panel(context, world, "panel_llama", wildLlama);
+            BlockPos hoverHorse = Mounts.pos(7);
+            Mounts.summon(context, world, "horse", hoverHorse, Mounts.stats(0.2, 0.7, 23));
+            panel(context, world, "panel_hover_health", hoverHorse, true);
         }
     }
 
     /** Opens the inventory of a tamed mount, as on shift + right click, and takes a screenshot. */
     private static void inventory(ClientGameTestContext context, TestSingleplayerContext world, String name, int id) {
+        inventory(context, world, name, id, -1, -1);
+    }
+
+    /** Same, with the mouse at ({@code x}, {@code y}) in the inventory window, or off it for negative values. */
+    private static void inventory(ClientGameTestContext context, TestSingleplayerContext world, String name, int id, int x, int y) {
         world.getServer().runOnServer(server -> {
             ServerPlayerEntity player = server.getPlayerManager().getPlayerList().getFirst();
             AbstractHorseEntity mount = (AbstractHorseEntity) server.getOverworld().getEntityById(id);
@@ -65,6 +78,11 @@ public class ScreenTest implements FabricClientGameTest {
             mount.openInventory(player);
         });
         context.waitForScreen(HorseScreen.class);
+        if (x >= 0) {
+            hover(context, x, y, 176, 166);
+        } else {
+            context.getInput().setCursorPos(0, 0);
+        }
         context.waitTicks(5);
         context.takeScreenshot(name);
         context.setScreen(() -> null);
@@ -73,6 +91,11 @@ public class ScreenTest implements FabricClientGameTest {
 
     /** Shift + right clicks an untamed mount: the panel opens, and closes again with shift. */
     private static void panel(ClientGameTestContext context, TestSingleplayerContext world, String name, BlockPos mount) {
+        panel(context, world, name, mount, false);
+    }
+
+    /** Same, with the mouse on the health row of the panel ({@code hoverHealth}). */
+    private static void panel(ClientGameTestContext context, TestSingleplayerContext world, String name, BlockPos mount, boolean hoverHealth) {
         // Two blocks north of the mount, facing south (yaw 0) and a little down at it
         world.getServer().runCommand(String.format(Locale.ROOT, "tp @a %s %d %s 0 30",
             mount.getX() + 0.5, mount.getY(), mount.getZ() - 1.5));
@@ -81,10 +104,34 @@ public class ScreenTest implements FabricClientGameTest {
         context.waitTicks(2);
         context.getInput().pressKey(options -> options.useKey);
         context.waitForScreen(ToolTipGui.class);
+        if (hoverHealth) {
+            // The value label of the third row; LibGui centers the panel on the screen
+            int[] label = context.computeOnClient(minecraft -> {
+                WPanel root = ((CottonClientScreen) minecraft.currentScreen).getDescription().getRootPanel();
+                WWidget value = ((WPanel) root.streamChildren().toList().get(2)).streamChildren().toList().get(1);
+                return new int[] {value.getAbsoluteX() + value.getWidth() / 2, value.getAbsoluteY() + value.getHeight() / 2,
+                    root.getWidth(), root.getHeight()};
+            });
+            hover(context, label[0], label[1], label[2], label[3]);
+        }
         context.waitTicks(3);
         context.takeScreenshot(name);
         context.getInput().releaseKey(options -> options.sneakKey);
         context.waitForScreen(null);
         context.waitTicks(2);
+    }
+
+    /**
+     * Moves the mouse to ({@code x}, {@code y}) in a window of the given size centered on the
+     * screen; width 0 means the screen's horizontal center.
+     */
+    private static void hover(ClientGameTestContext context, int x, int y, int width, int height) {
+        double[] cursor = context.computeOnClient(minecraft -> {
+            int scale = minecraft.getWindow().getScaleFactor();
+            int left = width == 0 ? minecraft.getWindow().getScaledWidth() / 2 : (minecraft.getWindow().getScaledWidth() - width) / 2;
+            int top = (minecraft.getWindow().getScaledHeight() - height) / 2;
+            return new double[] {(left + x) * scale, (top + y) * scale};
+        });
+        context.getInput().setCursorPos(cursor[0], cursor[1]);
     }
 }

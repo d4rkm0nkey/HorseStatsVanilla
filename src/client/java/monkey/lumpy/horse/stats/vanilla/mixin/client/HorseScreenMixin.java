@@ -14,6 +14,8 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.util.Optional;
+
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends MountScreen<HorseScreenHandler> {
     // Positions per stat, in StatLines.Stat order (speed, jump, health, strength)
@@ -42,6 +44,10 @@ public abstract class HorseScreenMixin extends MountScreen<HorseScreenHandler> {
         // A chest inventory covers the space next to the horse, so the values move up into the title row
         boolean hasChest = entity instanceof AbstractDonkeyEntity donkey && donkey.hasChest();
         int neutralColor = config.getNeutralColor().getColor();
+        // The labels are drawn relative to the window, the mouse position is not
+        int localX = mouseX - this.x;
+        int localY = mouseY - this.y;
+        StatLines.Stat hovered = null;
 
         for (StatLines.Line line : stats.getLines()) {
             int i = line.stat().ordinal();
@@ -51,21 +57,35 @@ public abstract class HorseScreenMixin extends MountScreen<HorseScreenHandler> {
                 continue;
             }
 
-            if (config.valueUp()) {
-                drawContext.drawText(textRenderer, symbol + " " + line.value(), TOP_ROW_X[i], 6, line.color(), false);
-                if (showRange) {
-                    drawContext.drawText(textRenderer, symbol + " (" + line.range() + ")", 180, 30 + 10 * i, neutralColor, false);
+            int x;
+            int y;
+            int width;
+            if (config.valueUp() || hasChest) {
+                String text = symbol + " " + line.value();
+                x = (config.valueUp() ? TOP_ROW_X : TOP_ROW_X_CHEST)[i];
+                y = 6;
+                width = textRenderer.getWidth(text);
+                drawContext.drawText(textRenderer, text, x, y, line.color(), false);
+                // Without a chest the space next to the horse is free for the ranges
+                if (showRange && !hasChest) {
+                    drawContext.drawText(textRenderer, symbol + " (" + line.range() + ")", COLUMN_SYMBOL_X[i], 26 + 10 * i, neutralColor, false);
                 }
-            } else if (hasChest) {
-                drawContext.drawText(textRenderer, symbol + " " + line.value(), TOP_ROW_X_CHEST[i], 6, line.color(), false);
             } else {
-                int y = 26 + 10 * i;
-                drawContext.drawText(textRenderer, symbol, COLUMN_SYMBOL_X[i], y, line.color(), false);
+                x = COLUMN_SYMBOL_X[i];
+                y = 26 + 10 * i;
+                width = 93 + textRenderer.getWidth(line.value()) - x;
+                drawContext.drawText(textRenderer, symbol, x, y, line.color(), false);
                 drawContext.drawText(textRenderer, line.value(), 93, y, line.color(), false);
                 if (showRange) {
                     drawContext.drawText(textRenderer, "(" + line.range() + ")", 119, y, neutralColor, false);
                 }
             }
+            if (localX >= x && localX < x + width && localY >= y - 1 && localY < y + 9) {
+                hovered = line.stat();
+            }
+        }
+        if (hovered != null) {
+            drawContext.drawTooltip(textRenderer, stats.getTooltip(hovered), Optional.empty(), mouseX, mouseY);
         }
     }
 }
