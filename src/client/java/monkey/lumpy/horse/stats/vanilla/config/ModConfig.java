@@ -1,54 +1,90 @@
 package monkey.lumpy.horse.stats.vanilla.config;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
-import me.shedaniel.math.Color;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-@Config(name = "horsestatsvanilla")
-public class ModConfig implements ConfigData {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private boolean showValue = true;
-    @ConfigEntry.Gui.Tooltip
-    private boolean showMaxMin = false;
-    @ConfigEntry.Gui.Tooltip
-    private boolean enableTooltip = true;
-    private boolean valueUp = false;
-    @ConfigEntry.Gui.Tooltip
-    private boolean useColors = true;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 
-    @ConfigEntry.ColorPicker(allowAlpha = false)
-    private int goodColor = 0xff00b400;
-    @ConfigEntry.ColorPicker(allowAlpha = false)
-    private int neutralColor = 0xff464646;
-    @ConfigEntry.ColorPicker(allowAlpha = false)
-    private int badColor = 0xffff0000;
+import net.fabricmc.loader.api.FabricLoader;
 
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float goodHorseJumpValue = 4;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float badHorseJumpValue = 2.5f;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float goodHorseSpeedValue = 11;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float badHorseSpeedValue = 7;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float goodHorseHeartsValue = 25;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float badHorseHeartsValue = 20;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float goodStrengthValue = 9;
-    @Category("coloring")
-    @ConfigEntry.Gui.Tooltip
-    private float badStrengthValue = 6;
+/**
+ * The options, stored as JSON in config/horsestatsvanilla.json5 (the name Cloth Config's
+ * AutoConfig used, so existing configs keep working). The fields are package private for
+ * {@link ClothConfigScreen}, the only place they are changed.
+ */
+public class ModConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger("horsestatsvanilla");
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static ModConfig instance;
+
+    boolean showValue = true;
+    boolean showMaxMin = false;
+    boolean enableTooltip = true;
+    boolean valueUp = false;
+    boolean useColors = true;
+
+    int goodColor = 0xff00b400;
+    int neutralColor = 0xff464646;
+    int badColor = 0xffff0000;
+
+    float goodHorseJumpValue = 4;
+    float badHorseJumpValue = 2.5f;
+    float goodHorseSpeedValue = 11;
+    float badHorseSpeedValue = 7;
+    float goodHorseHeartsValue = 25;
+    float badHorseHeartsValue = 20;
+    float goodStrengthValue = 9;
+    float badStrengthValue = 6;
+
+    public static ModConfig get() {
+        if (instance == null) {
+            instance = load();
+        }
+        return instance;
+    }
+
+    private static Path path() {
+        return FabricLoader.getInstance().getConfigDir().resolve("horsestatsvanilla.json5");
+    }
+
+    private static ModConfig load() {
+        Path path = path();
+        if (Files.exists(path)) {
+            // Options missing from the file keep their defaults
+            try (Reader reader = Files.newBufferedReader(path)) {
+                ModConfig config = GSON.fromJson(reader, ModConfig.class);
+                if (config != null) {
+                    return config;
+                }
+            } catch (IOException | JsonParseException e) {
+                LOGGER.error("Could not read {}, using the defaults", path, e);
+                return new ModConfig();
+            }
+        }
+        ModConfig config = new ModConfig();
+        config.save();
+        return config;
+    }
+
+    public void save() {
+        Path path = path();
+        try {
+            Files.createDirectories(path.getParent());
+            try (Writer writer = Files.newBufferedWriter(path)) {
+                GSON.toJson(this, writer);
+            }
+        } catch (IOException e) {
+            LOGGER.error("Could not save {}", path, e);
+        }
+    }
 
     public boolean showValue() {  return showValue; }
 
@@ -61,7 +97,7 @@ public class ModConfig implements ConfigData {
     public boolean isTooltipEnabled() {
         return enableTooltip;
     }
-    
+
     public float getGoodHorseJumpValue() {
         return goodHorseJumpValue;
     }
@@ -94,15 +130,17 @@ public class ModConfig implements ConfigData {
         return badStrengthValue;
     }
 
-    public Color getGoodColor() {
-        return Color.ofOpaque(goodColor);
+    // The colors are opaque ARGB, whatever alpha the file has
+
+    public int getGoodColor() {
+        return 0xff000000 | goodColor;
     }
 
-    public Color getNeutralColor() {
-        return Color.ofOpaque(neutralColor);
+    public int getNeutralColor() {
+        return 0xff000000 | neutralColor;
     }
 
-    public Color getBadColor() {
-        return Color.ofOpaque(badColor);
+    public int getBadColor() {
+        return 0xff000000 | badColor;
     }
 }
