@@ -2,9 +2,6 @@ package monkey.lumpy.horse.stats.vanilla.gametest;
 
 import java.util.Locale;
 
-import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
-import io.github.cottonmc.cotton.gui.widget.WPanel;
-import io.github.cottonmc.cotton.gui.widget.WWidget;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
@@ -105,12 +102,11 @@ public class ScreenTest implements FabricClientGameTest {
         context.getInput().pressKey(options -> options.useKey);
         context.waitForScreen(ToolTipGui.class);
         if (hoverHealth) {
-            // The value label of the third row; LibGui centers the panel on the screen
+            // The value of the third row; the panel is centered on the screen
             int[] label = context.computeOnClient(minecraft -> {
-                WPanel root = ((CottonClientScreen) minecraft.currentScreen).getDescription().getRootPanel();
-                WWidget value = ((WPanel) root.streamChildren().toList().get(2)).streamChildren().toList().get(1);
-                return new int[] {value.getAbsoluteX() + value.getWidth() / 2, value.getAbsoluteY() + value.getHeight() / 2,
-                    root.getWidth(), root.getHeight()};
+                ToolTipGui screen = (ToolTipGui) minecraft.currentScreen;
+                return new int[] {ToolTipGui.VALUE_X + 4, ToolTipGui.PADDING + 2 * ToolTipGui.ROW_HEIGHT + 4,
+                    screen.getPanelWidth(), screen.getPanelHeight()};
             });
             hover(context, label[0], label[1], label[2], label[3]);
         }
