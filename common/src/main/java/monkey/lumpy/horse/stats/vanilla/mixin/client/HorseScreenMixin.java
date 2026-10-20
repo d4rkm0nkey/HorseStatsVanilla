@@ -44,7 +44,7 @@ public abstract class HorseScreenMixin extends AbstractMountInventoryScreen<Hors
         }
         // A chest inventory covers the space next to the horse, so the values move up into the title row
         boolean hasChest = entity instanceof AbstractChestedHorse chested && chested.hasChest();
-        int neutralColor = config.getNeutralColor().getColor();
+        int neutralColor = config.getNeutralColor();
         // The labels are drawn relative to the window, the mouse position is not
         int localX = mouseX - leftPos;
         int localY = mouseY - topPos;
