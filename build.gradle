@@ -47,7 +47,9 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modApi("com.terraformersmc:modmenu:17.0.1") { transitive = false }
-	modApi "me.shedaniel.cloth:cloth-config-fabric:21.11.153"
+	// Optional: only the options screen uses it
+	modCompileOnly "me.shedaniel.cloth:cloth-config-fabric:21.11.153"
+	modLocalRuntime "me.shedaniel.cloth:cloth-config-fabric:21.11.153"
 }
 
 processResources {
@@ -121,14 +123,14 @@ publishMods {
 		javaVersions.add(JavaVersion.toVersion(project.java_version))
 		client = true
 		server = false
-		requires("fabric-api", "cloth-config")
-		optional("modmenu")
+		requires("fabric-api")
+		optional("modmenu", "cloth-config")
 	}
 	modrinth {
 		projectId = project.modrinth_id
 		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
 		minecraftVersions.addAll(publishVersions)
-		requires("fabric-api", "cloth-config")
-		optional("modmenu")
+		requires("fabric-api")
+		optional("modmenu", "cloth-config")
 	}
 }

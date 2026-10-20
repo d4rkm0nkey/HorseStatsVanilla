@@ -43,7 +43,7 @@ public abstract class HorseScreenMixin extends MountScreen<HorseScreenHandler> {
         }
         // A chest inventory covers the space next to the horse, so the values move up into the title row
         boolean hasChest = entity instanceof AbstractDonkeyEntity donkey && donkey.hasChest();
-        int neutralColor = config.getNeutralColor().getColor();
+        int neutralColor = config.getNeutralColor();
         // The labels are drawn relative to the window, the mouse position is not
         int localX = mouseX - this.x;
         int localY = mouseY - this.y;

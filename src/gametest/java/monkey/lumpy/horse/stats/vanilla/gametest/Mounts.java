@@ -57,7 +57,7 @@ final class Mounts {
         return (AbstractHorseEntity) minecraft.world.getEntityById(id);
     }
 
-    /** Sets a config option for the following checks; the config has no setters, the cloth screen writes the fields. */
+    /** Sets a config option for the following checks; the config has no setters, the options screen writes the fields. */
     static void config(String option, boolean value) {
         try {
             Field field = ModConfig.class.getDeclaredField(option);

@@ -6,7 +6,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import me.shedaniel.autoconfig.AutoConfig;
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import monkey.lumpy.horse.stats.vanilla.util.Converter;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -53,7 +52,7 @@ public final class StatLines {
     private StatLines() {}
 
     public static ModConfig config() {
-        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+        return ModConfig.get();
     }
 
     /** Returns null for camels: all their stats are fixed, so there is nothing to compare. */
@@ -116,13 +115,13 @@ public final class StatLines {
     private int rate(double value, double good, double bad) {
         if (config.useColors()) {
             if (value > good) {
-                return config.getGoodColor().getColor();
+                return config.getGoodColor();
             }
             if (value < bad) {
-                return config.getBadColor().getColor();
+                return config.getBadColor();
             }
         }
-        return config.getNeutralColor().getColor();
+        return config.getNeutralColor();
     }
 
     private static String range(double min, double max) {

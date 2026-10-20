@@ -2,6 +2,7 @@ package monkey.lumpy.horse.stats.vanilla.gametest;
 
 import java.util.Locale;
 
+import monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
@@ -20,6 +21,12 @@ import net.minecraft.util.math.BlockPos;
 public class ScreenTest implements FabricClientGameTest {
     @Override
     public void runTest(ClientGameTestContext context) {
+        // The options screen as Mod Menu opens it, from the title screen
+        context.setScreen(() -> new ModMenuApiImpl().getModConfigScreenFactory().create(null));
+        context.waitTicks(5);
+        context.takeScreenshot("options");
+        context.setScreen(() -> null);
+
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
             world.getClientWorld().waitForChunksRender();
             world.getServer().runCommand("time set noon");
