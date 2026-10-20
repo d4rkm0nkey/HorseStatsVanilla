@@ -1,7 +1,7 @@
 package monkey.lumpy.horse.stats.vanilla;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import java.nio.file.Path;
+
 import monkey.lumpy.horse.stats.vanilla.config.ModConfig;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
@@ -11,8 +11,8 @@ public final class HorseStatsVanilla {
 
     private HorseStatsVanilla() {}
 
-    public static void init() {
-        AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
+    public static void init(Path configDir) {
+        ModConfig.load(configDir);
 
         // Development check: apply all mixins right away instead of when their target
         // class is first used, so broken targets show up without opening a horse screen
@@ -22,6 +22,6 @@ public final class HorseStatsVanilla {
     }
 
     public static ModConfig config() {
-        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+        return ModConfig.get();
     }
 }

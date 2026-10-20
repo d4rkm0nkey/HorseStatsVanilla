@@ -17,13 +17,25 @@ neoForge {
 	}
 }
 
+// Mods that are only on the classpath of the runs, not dependencies of the published jar
+configurations {
+	localRuntime
+	runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
-	implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
-	jarJar("me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}")
+	// Optional: only the options screen uses it
+	localRuntime "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
 }
 
 publishMods {
 	modLoaders.add("neoforge")
+	curseforge {
+		optional("cloth-config")
+	}
+	modrinth {
+		optional("cloth-config")
+	}
 	// A mod built against a NeoForge beta is not published as a stable release
 	if (neoforge_version.contains("beta")) {
 		type = BETA

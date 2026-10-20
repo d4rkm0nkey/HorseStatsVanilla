@@ -112,13 +112,13 @@ public final class StatLines {
     private int rate(double value, double good, double bad) {
         if (config.useColors()) {
             if (value > good) {
-                return config.getGoodColor().getColor();
+                return config.getGoodColor();
             }
             if (value < bad) {
-                return config.getBadColor().getColor();
+                return config.getBadColor();
             }
         }
-        return config.getNeutralColor().getColor();
+        return config.getNeutralColor();
     }
 
     private static String range(double min, double max) {
