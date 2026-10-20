@@ -31,9 +31,9 @@ public class StatLinesTest implements FabricClientGameTest {
     public void runTest(ClientGameTestContext context) {
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
             ModConfig config = HorseStatsVanilla.config();
-            int good = config.getGoodColor().getColor();
-            int neutral = config.getNeutralColor().getColor();
-            int bad = config.getBadColor().getColor();
+            int good = config.getGoodColor();
+            int neutral = config.getNeutralColor();
+            int bad = config.getBadColor();
 
             int bestHorse = Mounts.summon(context, world, "horse", Mounts.pos(0), Mounts.stats(0.3375, 1.0, 30));
             expect(context, "the best horse", bestHorse, List.of(
