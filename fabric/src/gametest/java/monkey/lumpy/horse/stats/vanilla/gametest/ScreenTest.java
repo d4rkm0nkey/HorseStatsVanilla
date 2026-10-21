@@ -1,10 +1,14 @@
 package monkey.lumpy.horse.stats.vanilla.gametest;
 
-import monkey.lumpy.horse.stats.vanilla.ModMenuApiImpl;
+import com.terraformersmc.modmenu.ModMenu;
+import com.terraformersmc.modmenu.gui.ModsScreen;
+
+import monkey.lumpy.horse.stats.vanilla.HorseStatsVanilla;
 import monkey.lumpy.horse.stats.vanilla.gui.ToolTipGui;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,10 +23,21 @@ import net.minecraft.world.entity.animal.equine.AbstractHorse;
 public class ScreenTest implements FabricClientGameTest {
     @Override
     public void runTest(ClientGameTestContext context) {
-        // The options screen as Mod Menu opens it, from the title screen
-        context.setScreen(() -> new ModMenuApiImpl().getModConfigScreenFactory().create(null));
+        // The options screen the way Mod Menu opens it: through its own lookup of the modmenu entrypoint
+        context.setScreen(() -> new ModsScreen(new TitleScreen()));
+        context.waitTicks(5);
+        if (!context.computeOnClient(client -> ModMenu.hasConfigScreen(HorseStatsVanilla.MOD_ID))) {
+            throw new AssertionError("Mod Menu has no options screen for " + HorseStatsVanilla.MOD_ID);
+        }
+        context.setScreen(() -> ModMenu.getConfigScreen(HorseStatsVanilla.MOD_ID, new ModsScreen(new TitleScreen())));
         context.waitTicks(5);
         context.takeScreenshot("options");
+        // Done goes back to Mod Menu's list
+        context.runOnClient(client -> client.gui.screen().onClose());
+        context.waitTicks(2);
+        if (!context.computeOnClient(client -> client.gui.screen() instanceof ModsScreen)) {
+            throw new AssertionError("The options screen did not return to Mod Menu");
+        }
         context.setScreen(() -> null);
 
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
