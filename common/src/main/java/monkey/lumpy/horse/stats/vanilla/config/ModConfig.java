@@ -15,8 +15,8 @@ import com.google.gson.JsonParseException;
 
 /**
  * The options, stored as JSON in config/horsestatsvanilla.json5 (the name Cloth Config's
- * AutoConfig used, so existing configs keep working). The fields are package private for
- * {@link ClothConfigScreen}, the only place they are changed.
+ * AutoConfig used in older versions, so existing configs keep working). The fields are package
+ * private for {@link ModConfigScreen}, the only place they are changed.
  */
 public class ModConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger("horsestatsvanilla");
@@ -69,6 +69,27 @@ public class ModConfig {
         ModConfig config = new ModConfig();
         config.save();
         return config;
+    }
+
+    /** Sets every option back to its default, e.g. from the options screen. */
+    void resetToDefaults() {
+        ModConfig defaults = new ModConfig();
+        showValue = defaults.showValue;
+        showMaxMin = defaults.showMaxMin;
+        enableTooltip = defaults.enableTooltip;
+        valueUp = defaults.valueUp;
+        useColors = defaults.useColors;
+        goodColor = defaults.goodColor;
+        neutralColor = defaults.neutralColor;
+        badColor = defaults.badColor;
+        goodHorseJumpValue = defaults.goodHorseJumpValue;
+        badHorseJumpValue = defaults.badHorseJumpValue;
+        goodHorseSpeedValue = defaults.goodHorseSpeedValue;
+        badHorseSpeedValue = defaults.badHorseSpeedValue;
+        goodHorseHeartsValue = defaults.goodHorseHeartsValue;
+        badHorseHeartsValue = defaults.badHorseHeartsValue;
+        goodStrengthValue = defaults.goodStrengthValue;
+        badStrengthValue = defaults.badStrengthValue;
     }
 
     public void save() {

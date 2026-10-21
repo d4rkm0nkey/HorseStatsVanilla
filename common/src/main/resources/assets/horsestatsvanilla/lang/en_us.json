@@ -34,5 +34,6 @@
     "horsestatsvanilla.stat.health": "Health: %s (%s hearts)",
     "horsestatsvanilla.stat.strength": "Inventory: %s slots",
     "horsestatsvanilla.stat.range": "Vanilla range: %s",
-    "horsestatsvanilla.stat.limits": "Good above %s, bad below %s"
+    "horsestatsvanilla.stat.limits": "Good above %s, bad below %s",
+    "horsestatsvanilla.config.reset": "Reset to defaults"
 }

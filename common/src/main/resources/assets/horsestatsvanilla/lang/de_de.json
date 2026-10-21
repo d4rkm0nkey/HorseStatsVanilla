@@ -34,5 +34,6 @@
     "horsestatsvanilla.stat.health": "Leben: %s (%s Herzen)",
     "horsestatsvanilla.stat.strength": "Inventar: %s Plätze",
     "horsestatsvanilla.stat.range": "Vanilla-Bereich: %s",
-    "horsestatsvanilla.stat.limits": "Gut über %s, schlecht unter %s"
+    "horsestatsvanilla.stat.limits": "Gut über %s, schlecht unter %s",
+    "horsestatsvanilla.config.reset": "Standardwerte"
 }

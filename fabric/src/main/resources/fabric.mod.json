@@ -35,7 +35,6 @@
   },
   "suggests": {
     "flamingo": "*",
-    "cloth-config": "*",
     "modmenu": "*"
   }
 }

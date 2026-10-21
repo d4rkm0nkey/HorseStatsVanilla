@@ -13,6 +13,4 @@ neoForge {
 dependencies {
 	// Both loaders ship Mixin
 	compileOnly("net.fabricmc:sponge-mixin:${mixin_version}")
-	compileOnly("me.shedaniel.cloth:cloth-config:${cloth_version}") { transitive = false }
-	compileOnly("me.shedaniel.cloth:basic-math:${basic_math_version}")
 }
